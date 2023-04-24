@@ -288,7 +288,7 @@ const Event = (props) => {
                     // initialStep={initialStep}
                     onExit={onExit}
                     /> */}
-                    <div className='flex-col lg:flex-row w-full lg:w-11/12 flex gap-5 justify-center items-start p-2 '>
+                    <div className='flex-col lg:flex-row w-full mx-5 flex gap-5 justify-center items-start p-2 '>
                         {/* Conference Details */}
                         <div className='flex flex-col gap-5 w-full md:w-11/12 lg:w-1/5 '>
                             <div className=' w-full bg-white rounded-xl light-shadow flex flex-col gap-5 items-center justify-center'>
@@ -302,7 +302,7 @@ const Event = (props) => {
                                 <div className='w-full bg-dark-gray gap-2 flex flex-col p-3'>
                                     <div className='flex justify-start items-center gap-2'><span className='font-bold'>Event Name:</span> {eventName}</div>
                                     <div className='flex justify-start items-center gap-2'><span className='font-bold'><AccessTimeFilledRoundedIcon fontSize='sm'/> Duration:</span> {dur} Minutes</div>
-                                    <div className='flex justify-start items-center gap-2'><span className='font-bold'><CalendarMonthIcon fontSize='sm'/> Last Date to Schedule:</span> 4th May</div>
+                                    <div className='flex justify-start items-center gap-2'><span className='font-bold'><CalendarMonthIcon fontSize='sm'/> Schedule:</span> {new Date(minDate).toLocaleDateString()} - {new Date(maxDate).toLocaleDateString()}</div>
                                     <div className='flex justify-start items-center gap-2'><span className='font-bold'><HelpIcon fontSize='sm'/> Platform Guide:</span> <Link target='_blank' href='https://app.tango.us/app/workflow/GDSC-Lead-Applicant-s-Guide-to-conference-hack2skill-com-62b31d85ae224224bef0da93c2a1dddf' className='text-google-blue'>Click Here</Link></div>
                                 </div>
                             </div>
