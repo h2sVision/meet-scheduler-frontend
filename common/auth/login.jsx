@@ -73,7 +73,7 @@ function LoginForm({ props }){
                     <input className="m-2 border-solid text-black font-normal border border-[#D7DCE2] rounded h-10 w-10 text-center form-control rounded-lg" name="otp6" type="text" id="sixth" onKeyDown={(e) => { if (e.target.value === '' && e.code === 'Backspace') { e.target.previousElementSibling.value = ''; e.target.previousElementSibling.focus() } }} onChange={onChangeHandler} maxLength={1}  />
 
                     <div className="w-full flex justify-center md:justify-start text-xs text-gray p-2">
-                        <div>Did not Recieve the OTP? <span className="text-google-blue" onClick={(e)=>{loginSubmit(); e.target.parentNode.innerHTML ="OTP Resent"}} >Resend</span></div>
+                        <div>Did not Recieve the OTP? <span className="text-google-blue" onClick={loginSubmit} >Resend</span></div>
                     </div>
                     <div className="flex items-center justify-between mt-4 loginBtnDiv">
                         <button onClick={otpSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-normal  focus:outline-none focus:shadow-outline signIn flex gap-2 justify-center items-center" >

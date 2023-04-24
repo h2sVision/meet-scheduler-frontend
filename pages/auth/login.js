@@ -146,6 +146,7 @@ export default function Login() {
                 withCredentials: true
             });
             console.log('yeh wla h reponse',response);
+            setErrorStatus(true);
             setErrorMessage("OTP Sent");
             setOtp(true);
           }
@@ -223,11 +224,18 @@ export default function Login() {
                     {errorStatus ? (
                         <div
                         id="toast-danger"
-                        className="flex items-center w-full max-w-xs p-4 mb-4 text-white bg-red-500 rounded-lg shadow signup-error-div"
+                        className={`flex items-center w-full max-w-xs p-4 mb-4 text-white rounded-lg shadow signup-error-div ${errorMessage === 'OTP Sent' ? 'bg-green-500': 'bg-red-500'}`}
                         role="alert"
                         >
-                        <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg">
-                            <svg
+                        <div className={`inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 rounded-lg ${errorMessage === 'OTP Sent'? 'bg-green-100': ' bg-red-100 '}`}>
+                            {errorMessage === 'OTP Sent'?(
+                              <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                              width="48" height="48"
+                              viewBox="0 0 48 48">
+                              <path fill="#43A047" d="M40.6 12.1L17 35.7 7.4 26.1 4.6 29 17 41.3 43.4 14.9z"></path>
+                              </svg>
+                            ):(
+                              <svg
                             className="w-6 h-6"
                             fill="none"
                             stroke="currentColor"
@@ -241,6 +249,7 @@ export default function Login() {
                                 d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                             ></path>
                             </svg>
+                            )}
                         </div>
                         <div className="ml-3 text-sm font-normal">{errorMessage}</div>
                         <button
