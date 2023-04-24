@@ -1,0 +1,98 @@
+.react-datepicker{
+    width: 100%;
+    font-size: large;
+    border: 0 !important;
+}
+.react-datepicker__month-container{
+    width: 100%;
+}
+.react-datepicker__header{
+    background-color: white !important;
+    border-bottom: 0 !important;
+
+}
+
+.react-datepicker__current-month{
+    /* display: none; */
+    justify-content: center;
+    width: 131% !important;
+    margin-top: -3.5rem!important;
+    margin-bottom: 2.6rem;
+    /* padding-right: 15.8rem; */
+    display: flex;
+    font-size: 1rem !important;
+    color: white !important;
+}
+@media(max-width:1023px){
+    .react-datepicker__current-month{
+        width: 100% !important;
+    }
+}
+.react-datepicker__navigation-icon{
+    font-size: 20px !important;
+}
+.react-datepicker__navigation--next {
+    top: 34px !important;
+    right: -15px !important;
+}
+.react-datepicker__navigation--previous{
+    top: 34px !important;
+    left: -15px !important;
+}
+
+.avaiableDatesLabel{
+    position: absolute;
+    z-index: 20;    
+    top: 23px;
+    left: 19px;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+.react-datepicker__day-names{
+    display: flex;
+    justify-content: space-around;
+    font-size: 1.2rem;
+    margin: 1rem  1rem;
+    padding: 0.8rem 0 !important;
+    background-color: rgb(242, 242, 242);
+    border-radius: 10px;
+}
+.react-datepicker__day-name{
+    color: var(--h2s--darkBlue) !important;
+    font-weight: 700;
+}
+.react-datepicker__week{
+    display: flex;
+    justify-content: space-around;
+    margin: 1rem;
+    font-size: large !important;
+}
+.react-datepicker__day--selected, .react-datepicker__day--in-selecting-range, .react-datepicker__day--in-range, .react-datepicker__month-text--selected, .react-datepicker__month-text--in-selecting-range, .react-datepicker__month-text--in-range, .react-datepicker__quarter-text--selected, .react-datepicker__quarter-text--in-selecting-range, .react-datepicker__quarter-text--in-range, .react-datepicker__year-text--selected, .react-datepicker__year-text--in-selecting-range, .react-datepicker__year-text--in-range{
+    background-color: var(--h2s--google--blue) !important;
+}
+
+#slots{
+    height: 45vh;
+    overflow-y: auto;
+}
+#slots::-webkit-scrollbar {
+    display: none;
+  }
+.slotTime{
+    border: 1.3px solid var(--h2s--google--blue);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.3rem;
+    margin: 0.5rem 0;
+    color: var(--h2s--google--blue);
+    font-weight: 600;
+    cursor: pointer;
+    max-width: 160px;
+    transition: all 1s ease;
+}
+.slotTime.active{
+    color: white !important;
+    background-color: var(--h2s--google--blue);
+}

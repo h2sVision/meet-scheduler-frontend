@@ -1,0 +1,60 @@
+button.signIn {
+    /* background-image: linear-gradient(45deg, #6014CD,#0034C5);
+     */
+    background-color: #2582F9;
+    padding: 0.5rem 2rem;
+    border-radius: 9px;
+}
+.rightSideImage{
+    height: 100vh;
+    transition: all 2s ease-in-out;
+}
+.headingText{
+    font-size: 2.8rem;
+}
+@media(max-width:768px){
+    .headingText{
+        font-size: 1.8rem;
+    }
+
+}
+
+/* Responsive CSS=================*/
+@media(max-width:1023px){
+    .rightSideImage{
+        height: 100%;
+        border-top-left-radius: 30px;
+        border-top-right-radius: 30px;
+    }
+    .LoginContentDiv{
+        order: 1 !important;
+        text-align: center;
+        width: 100%;
+        padding-top: 6rem !important ;
+        margin-bottom: 2rem !important;
+    }
+    .LoginImgDiv{
+        order: 2 !important;
+        
+    }
+    .loginBtnDiv{
+        justify-content: center  !important;
+    }
+}
+
+@media(max-width:421px){
+    #useremail{
+        width: 80% !important;
+        margin: auto;
+    }
+    .loginHeaderLogo{
+        width: 91px;
+    }
+    .formInnerBox{
+        margin: 10px;
+    }
+    .ifOtpSent input{
+        margin: 0.3rem;
+    }
+}
+

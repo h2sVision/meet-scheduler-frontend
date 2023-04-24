@@ -1,0 +1,68 @@
+.fc-event-main{
+    color: black !important;
+
+}
+.fc-h-event{
+    background-color: white !important;
+    border-color: white !important;
+}
+
+.fc-scroller-harness th  {
+    background-color: var(--h2s--google--blue) !important;
+    border-color: var(--h2s--google--blue) !important;
+    color: white;
+    font-weight: 400 !important;
+    padding: 0.8rem 0 !important;
+}
+.fc-scroller-harness th:first-child  {
+    border-radius: 10px 0 0 0 ;
+}
+.fc-scroller-harness th:last-child  {
+    border-radius: 0 10px 0 0 ;
+}
+.fc-daygrid-body{
+    background-color: white;
+}
+
+.fc-daygrid-body table {
+    height: 75vh !important;
+}
+.fc-theme-standard .fc-scrollgrid{
+    border: none !important;
+}
+
+.fc-view-harness{
+    height: 70vh !important;
+}
+thead .fc-scroller{
+    overflow: hidden !important;
+}
+.fc-dayGridMonth-view{
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px !important;
+    border-radius: 10px;
+
+}
+.fc-daygrid-body{
+    width: 100% !important;
+    border-radius: 10px !important;
+}
+.fc-scroller table{
+    width: 100% !important;
+}
+.fc-scroller::-webkit-scrollbar{
+    width: 0 !important;
+
+}
+.clanedarTimeIntervals{
+    height: 200px;
+    overflow-y: scroll;
+}
+
+.clanedarTimeIntervals::-webkit-scrollbar{
+    width: 0 !important;
+
+}
+.eventContainer{
+    margin-top: -30px;
+    height: inherit;
+}
