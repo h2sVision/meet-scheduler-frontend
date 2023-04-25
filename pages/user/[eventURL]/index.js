@@ -274,7 +274,7 @@ const Event = (props) => {
                                <div className='font-bold text-sm md:text-base lg:text-xl text-center border-b-2 border-white border-solid p-2 w-full'>Interview Details</div>    
                                <div className='text-xs md:text-base'><span className='font-bold'><CalendarMonthOutlinedIcon/> Date & Time: </span>&nbsp; <strong>{new Date(bookedConference.start).toDateString()}, {new Date(bookedConference.start).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true})} {new Date(bookedConference.start).toString().slice(34)}</strong></div>    
                                <div className='text-xs md:text-base'><span className='font-bold'><AccessTimeRoundedIcon/> Duration: </span>&nbsp; 30- 40 Minutes</div>    
-                               <div className='text-xs md:text-base font-thin text-gray'>Copy your conference meeting link </div>
+                               <div className='text-xs md:text-base font-thin text-gray'>Copy your interview meeting link </div>
                                <div className='text-xs md:text-sm lg:text-base bg-light-gray text-gray rounded-lg pl-2 w-full md:w-82 lg:w-96 flex justify-between items-center '>{bookedConference.link} &nbsp; &nbsp; <button className='h2s-blue-button' onClick={(e)=>{e.target.innerHTML='Copied!'; navigator.clipboard.writeText(bookedConference.link)}}>Copy</button></div>
                                <div className='text-xs md:text-base font-thin text-gray'>Incase of any queries, you can reach out to us at gdsc-india@hack2skill.in</div>
                            </div>
