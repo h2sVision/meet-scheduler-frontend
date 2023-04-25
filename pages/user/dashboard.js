@@ -24,7 +24,12 @@ const Dashboard = (props) => {
           const response =await  axiosPrivate.get('/user/dashboard');
           setEvents(response?.data?.result);
         }catch(e){
-          console.log(e)
+          if(e?.response?.status === 300){
+            router.push(`/user/${e?.response?.data?.message}`)
+            // console.log(e)
+          }else{
+            console.log(e)
+          }
         }
         setLoading(false)
     }
