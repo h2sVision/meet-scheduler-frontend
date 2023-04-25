@@ -406,8 +406,8 @@ const Event = (props) => {
                     <div><span className='text-dark-blue font-semibold'>Current Moderator: </span> {currentConference?.moderatorEmail}</div>
                     <div><span className='text-dark-blue font-semibold'>Select New Moderator: </span>
                         <select className='border-solid border-2 border-gray rounded-md p-1' id='newMod'>
-                            {moderators.map((mod)=>(
-                                <option>{mod.email}</option>
+                            {moderators.map((mod, key)=>(
+                                <option key={key}>{mod.email}</option>
                             ))}
                         </select>
                     </div>
