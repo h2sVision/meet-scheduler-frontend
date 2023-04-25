@@ -148,6 +148,11 @@ const Event = (props) => {
         setCurrentConference(conf);
         setRescheduleModalOpen(true);
     }
+    const [switchModModalOpen,setSwitchModModalOpen] = useState(false);
+    const OpenSwitchModModal =(conf)=>{
+        setCurrentConference(conf);
+        setSwitchModModalOpen(true);
+    }
     const rescheduleConference = async()=>{
         const rescheduleDate = document.getElementById('rescheduleDate').value;
         const rescheduleTime = document.getElementById('rescheduleTime').value;
@@ -249,6 +254,9 @@ const Event = (props) => {
             console.log(e);
         }
     }
+    const switchMod = async(row)=>{
+        console.log(row);
+    }
     // Fetching Data intially
     useEffect(()=>{
         if(mounted && accessToken){
@@ -273,7 +281,7 @@ const Event = (props) => {
                         <div className='text-lg text-gray w-full text-center'> No Conferences Scheduled Yet</div>
                     ):(
                         <div className='w-full x-scroll py-4 px-2'>
-                            <Table tableHeaders={['#','Full Name', 'Email ID', 'Date & Time', 'Moderator Email', 'Action', 'Action']} tableContent={conferences} tableName={'conferencesbyEventURL'} resend={resendInvite} resechdule={OpenrescheduleModal}/>
+                            <Table tableHeaders={['#','Full Name', 'Email ID', 'Date & Time', 'Moderator Email', 'Action', 'Action', 'Switch Moderator']} tableContent={conferences} tableName={'conferencesbyEventURL'} resend={resendInvite} resechdule={OpenrescheduleModal} switchMod={OpenSwitchModModal}/>
                         </div>
                     )}
                 </div>
@@ -376,6 +384,25 @@ const Event = (props) => {
                     <div><span className='text-dark-blue font-semibold'> Enter New Date: </span> &nbsp; <input id='rescheduleDate' className='border-2 border-border-gray rounded-md px-2 border-solid' type='date'/></div>
                     <div><span className='text-dark-blue font-semibold'> Enter New Time: </span> &nbsp; <input id='rescheduleTime' className='border-2 border-border-gray rounded-md px-2 border-solid' type='time'/></div>
                     <button className='h2s-button' onClick={rescheduleConference}>Reschedule</button>
+                </div>
+            </Modal>
+             <Modal
+                open={switchModModalOpen}
+                onClose={()=>{setSwitchModModalOpen(false)}}
+                className='flex justify-center items-center'>
+                <div className='w-2/5 bg-white border-0 outline-0 rounded-lg p-8 flex flex-col gap-5'>
+                    <div className='font-bold text-dark-blue text-xl'>Switch Moderator</div>
+                    <div><span className='text-dark-blue font-semibold'>Participant Email: </span> {currentConference?.email}</div>
+                    <div><span className='text-dark-blue font-semibold'>Date & Time: </span> {new Date(currentConference?.start).toLocaleString()}</div>
+                    <div><span className='text-dark-blue font-semibold'>Current Moderator: </span> {currentConference?.moderatorEmail}</div>
+                    <div><span className='text-dark-blue font-semibold'>Select New Moderator: </span>
+                        <select className='border-solid border-2 border-gray rounded-md p-1'>
+                            {moderators.map((mod)=>(
+                                <option>{mod.email}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <button className='h2s-button' onClick={switchMod}>Switch</button>
                 </div>
             </Modal>
         </div>

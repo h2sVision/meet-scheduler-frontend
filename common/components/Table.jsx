@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Table = ({tableHeaders, tableContent,tableName, remove, resend, resechdule, activeDate,genrateOTP}) => {
+const Table = ({tableHeaders, tableContent,tableName, remove, resend, resechdule, activeDate,genrateOTP, switchMod}) => {
   return (
     <table className='light-shadow rounded-xl w-full'>
         <thead className='bg-google-blue text-white rounded-t-xl'>
@@ -22,6 +22,7 @@ const Table = ({tableHeaders, tableContent,tableName, remove, resend, resechdule
                         <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'>{row.moderatorEmail}</td>
                         <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'><button className='h2s-button bg-blue' onClick={()=>resend(row.email, row.moderatorEmail)}>Resend</button></td>
                         <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'><button className='h2s-button bg-blue' onClick={()=>{resechdule(row)}}>Reschedule</button></td>
+                        <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'><button className='h2s-button bg-blue' onClick={()=>{switchMod(row)}}>Switch</button></td>
                     </tr>
                 ))}
                 </>
