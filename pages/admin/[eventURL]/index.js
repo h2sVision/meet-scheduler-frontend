@@ -254,8 +254,17 @@ const Event = (props) => {
             console.log(e);
         }
     }
-    const switchMod = async(row)=>{
-        console.log(row);
+    const switchMod = async()=>{
+        try{
+            const response = await axiosPrivate.post(`/admin/${window.location.href.split('/')[4]}/switch-moderator`,{email: currentConference?.email, moderatorEmail: currentConference?.moderatorEmail, newModerator: document.getElementById('newMod').value});
+            console.log(response);
+            if(response.status ===200){
+                await fetchConferences();
+                setSwitchModModalOpen(false);
+            }
+        }catch(e){
+            console.log(e);
+        }
     }
     // Fetching Data intially
     useEffect(()=>{
@@ -396,7 +405,7 @@ const Event = (props) => {
                     <div><span className='text-dark-blue font-semibold'>Date & Time: </span> {new Date(currentConference?.start).toLocaleString()}</div>
                     <div><span className='text-dark-blue font-semibold'>Current Moderator: </span> {currentConference?.moderatorEmail}</div>
                     <div><span className='text-dark-blue font-semibold'>Select New Moderator: </span>
-                        <select className='border-solid border-2 border-gray rounded-md p-1'>
+                        <select className='border-solid border-2 border-gray rounded-md p-1' id='newMod'>
                             {moderators.map((mod)=>(
                                 <option>{mod.email}</option>
                             ))}
