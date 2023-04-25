@@ -239,6 +239,16 @@ const Event = (props) => {
         });
         fetchParticipants();
     }
+
+    const genrateOTP =async(email)=>{
+        try{
+            const response = await axiosPrivate.post(`/admin/${window.location.href.split('/')[4]}/genrateOTP`,{email: email});
+            console.log(response);
+            document.getElementById(email).children[document.getElementById(email).children.length-1].innerHTML =response?.data?.result;
+        }catch(e){
+            console.log(e);
+        }
+    }
     // Fetching Data intially
     useEffect(()=>{
         if(mounted && accessToken){
@@ -326,7 +336,7 @@ const Event = (props) => {
                                 <div className='text-lg text-gray w-full text-center'> No Participants added Yet</div>
                             ):(
                                 <div className='w-full x-scroll py-4 px-2'>
-                                    <Table tableHeaders={['#','Full Name', 'Email ID', 'Conference Scheduled', 'Action']} tableContent={participants} tableName={'participantsByEventURL'} remove={deleteParticipant}/>
+                                    <Table tableHeaders={['#','Full Name', 'Email ID', 'Conference Scheduled', 'Action', 'Genrate OTP']} tableContent={participants} tableName={'participantsByEventURL'} remove={deleteParticipant} genrateOTP={genrateOTP}/>
                                 </div>
                             )}
                         </div>

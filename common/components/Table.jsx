@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Table = ({tableHeaders, tableContent,tableName, remove, resend, resechdule, activeDate}) => {
+const Table = ({tableHeaders, tableContent,tableName, remove, resend, resechdule, activeDate,genrateOTP}) => {
   return (
     <table className='light-shadow rounded-xl w-full'>
         <thead className='bg-google-blue text-white rounded-t-xl'>
@@ -52,12 +52,13 @@ const Table = ({tableHeaders, tableContent,tableName, remove, resend, resechdule
             {tableName === 'participantsByEventURL' &&(
                 <>
                 {tableContent?.map((row, key)=>(
-                    <tr key={key}>
+                    <tr key={key} id={row.email}>
                         <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'>{key+1}</td>
                         <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'>{row.fullName}</td>
                         <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'>{row.email}</td>
                         <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'>{row.scheduledConference? ('Scheduled'):('Not Scheduled')}</td>
                         <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'><button className='h2s-button bg-blue' onClick={()=>remove(row.email)}>Remove</button></td>
+                        <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'><button className='h2s-button bg-blue' onClick={()=>genrateOTP(row.email)}>Genrate</button></td>
                     </tr>
                 ))}
                 </>
