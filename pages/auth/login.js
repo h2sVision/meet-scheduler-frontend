@@ -282,7 +282,7 @@ export default function Login() {
                     <div className="w-11/12 lg:w-10/12 mx-auto">
                         <h2 className="text-3xl font-semibold pt-5">Login to Schedule Interview Slot</h2>
                         <div className="flex w-full pt-8 items-center">
-                        <Link href={`${process.env.NEXT_PUBLIC_BACKEND_API}/auth/google`}>
+                        <Link href={`${process.env.NEXT_PUBLIC_BACKEND_API}/auth/google`} className="w-full">
                           <button className="bg-white border-solid border-2 border-google-blue text-google-blue rounded-md font-normal  focus:outline-none focus:shadow-outline  flex gap-2 justify-center items-center w-full lg:w-96 py-2"> 
                             <img src="/auth/Google__G__Logo.png" width="20"/> Login in with Google 
                           </button>
