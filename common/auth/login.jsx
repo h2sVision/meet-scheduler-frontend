@@ -24,7 +24,7 @@ function LoginForm({ props }){
                         <div className="ifOtpNotSent">
                         <div className="mb-2 formInnerBox">
                             <label className="block text-[#8D93A1] text-xs font-normal mb-3" htmlFor="username">
-                                Use your Registered Email to Login
+                                Use your Registered Email of GDSC Application Process to Login
                             </label>
                             <input 
                             className="border-solid text-[#A3A7AC] font-normal border border-[#D7DCE2] rounded block w-full  py-3 px-5  focus:outline-none focus:bg-white" 

@@ -12,7 +12,7 @@ const Navbar = ({leftSidebarOpen, setLeftSidebarOpen, callLogout, backToDashboar
               <img src="/auth/nav.png" className='w-full'/>
           </a>
           <div className='hidden md:flex fontMontserrat text-sm gap-6'>
-              <div className='cursor-pointer' onClick={backToDashboard}>Dashboard</div>
+              {/* <div className='cursor-pointer' onClick={backToDashboard}>Dashboard</div> */}
               <div className='cursor-pointer' onClick={callLogout}> <LogoutRoundedIcon fontSize='small'/> &nbsp; Logout</div>
             </div>
           <div className=' md:hidden'>
@@ -22,7 +22,7 @@ const Navbar = ({leftSidebarOpen, setLeftSidebarOpen, callLogout, backToDashboar
       {leftSidebarOpen && (
           <div className='flex w-full justify-center items-center md:hidden'>
             <div className='flex flex-col w-5/6 gap-2 py-2 fontMontserrat text-sm gap-5'>
-              <div className='cursor-pointer' onClick={backToDashboard}>Dashboard</div>
+              {/* <div className='cursor-pointer' onClick={backToDashboard}>Dashboard</div> */}
               <div className='cursor-pointer' onClick={callLogout}> <LogoutRoundedIcon fontSize='small'/> &nbsp; &nbsp; &nbsp; Logout</div>
             </div>
           </div>

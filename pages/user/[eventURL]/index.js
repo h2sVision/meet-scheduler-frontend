@@ -192,7 +192,7 @@ const Event = (props) => {
                                 newSlot.innerHTML=`<div data-moderators="[${moderators[i].email}]">${new Date(initialslots[slot].setMinutes(initialslots[slot].getMinutes()- duration)).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</div><div hidden>${initialslots[slot].toISOString()}</div>`;
                                 newSlot.children[0].classList.add('slotTime');
                                 newSlot.addEventListener('click', async()=>{
-                                    document.getElementById('displaySlot').innerHTML = new Date(newSlot.children[1].innerHTML);
+                                    document.getElementById('displaySlot').innerHTML =  new Date(newSlot.children[1].innerHTML).toDateString() +', '+ new Date(newSlot.children[1].innerHTML).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true}) + new Date(newSlot.children[1].innerHTML).toString().slice(34);
                                     setConference({
                                         start: newSlot.children[1]?.innerHTML,
                                         end: new Date(new Date(newSlot.children[1]?.innerHTML).setMinutes(new Date(newSlot.children[1]?.innerHTML).getMinutes() +duration)).toISOString(),
@@ -269,14 +269,15 @@ const Event = (props) => {
                        <div className='text-center bg-white rounded-2xl light-shadow flex flex-col gap-5 items-center justify-center lg:w-8/12 mx-3 md:mx-8 lg:mx-16 pb-6'>
                            <div className=''><img src='/conference_Details.png'/></div>
                            <div className='md:text-lg lg:text-3xl font-bold'>🎉 Congratulations!</div>
-                           <div className='text-sm md:text-base lg:text-lg text-gray'>You have successfully scheduled your interview with GDSC India.</div>
+                           <div className='text-sm md:text-base lg:text-lg text-gray'>You have successfully scheduled your interview with Google Developers Student Clubs Lead Application process.
+                           <br/> <span className='text-sm'>an email containing deatils of interview as shown below has been sent to you</span></div>
                            <div className='bg-dark-gray rounded-xl pb-2 px-2  mx-2 flex flex-col justify-center items-center gap-2 w-11/12  md:w-10/12'>
                                <div className='font-bold text-sm md:text-base lg:text-xl text-center border-b-2 border-white border-solid p-2 w-full'>Interview Details</div>    
                                <div className='text-xs md:text-base'><span className='font-bold'><CalendarMonthOutlinedIcon/> Date & Time: </span>&nbsp; <strong>{new Date(bookedConference.start).toDateString()}, {new Date(bookedConference.start).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true})} {new Date(bookedConference.start).toString().slice(34)}</strong></div>    
                                <div className='text-xs md:text-base'><span className='font-bold'><AccessTimeRoundedIcon/> Duration: </span>&nbsp; 30- 40 Minutes</div>    
                                <div className='text-xs md:text-base font-thin text-gray'>Copy your interview meeting link </div>
                                <div className='text-xs md:text-sm lg:text-base bg-light-gray text-gray rounded-lg pl-2 w-full md:w-82 lg:w-96 flex justify-between items-center '>{bookedConference.link} &nbsp; &nbsp; <button className='h2s-blue-button' onClick={(e)=>{e.target.innerHTML='Copied!'; navigator.clipboard.writeText(bookedConference.link)}}>Copy</button></div>
-                               <div className='text-xs md:text-base font-thin text-gray'>Incase of any queries, you can reach out to us at gdsc-india@hack2skill.com</div>
+                               <div className='text-xs md:text-base font-thin text-gray'>Incase of any queries, write to our alias gdsc-india@hack2skill.com</div>
                            </div>
                        </div>
                    </div>
@@ -303,7 +304,7 @@ const Event = (props) => {
                                     <div className='flex justify-start items-center gap-2'><span className='font-bold'>Event Name:</span> {eventName}</div>
                                     <div className='flex justify-start items-center gap-2'><span className='font-bold'><AccessTimeFilledRoundedIcon fontSize='sm'/> Duration:</span> {dur} Minutes</div>
                                     <div className='flex justify-start items-center gap-2'><span className='font-bold'><CalendarMonthIcon fontSize='sm'/> Schedule:</span> {new Date(minDate).toLocaleDateString()} - {new Date(maxDate).toLocaleDateString()}</div>
-                                    <div className='flex justify-start items-center gap-2'><span className='font-bold'><HelpIcon fontSize='sm'/> Platform Guide:</span> <Link target='_blank' href='https://app.tango.us/app/workflow/GDSC-Lead-Applicant-s-Guide-to-conference-hack2skill-com-62b31d85ae224224bef0da93c2a1dddf' className='text-google-blue'>Click Here</Link></div>
+                                    <div className='flex justify-start items-center gap-2'><span className='font-bold'><HelpIcon fontSize='sm'/> Platform Guide:</span> <Link target='_blank' href='https://docs.google.com/document/d/1ZNFHKa6ZHWRoIMHWE1wMwk2WVWAwd1bJBlhc8EuiCsk/edit?usp=sharing' className='text-google-blue'>Click Here</Link></div>
                                 </div>
                             </div>
                             <div className=' w-full rounded bg-card-blue light-shadow flex flex-col justify-center'>
