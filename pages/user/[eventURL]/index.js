@@ -276,7 +276,7 @@ const Event = (props) => {
                                <div className='text-xs md:text-base'><span className='font-bold'><AccessTimeRoundedIcon/> Duration: </span>&nbsp; 30- 40 Minutes</div>    
                                <div className='text-xs md:text-base font-thin text-gray'>Copy your interview meeting link </div>
                                <div className='text-xs md:text-sm lg:text-base bg-light-gray text-gray rounded-lg pl-2 w-full md:w-82 lg:w-96 flex justify-between items-center '>{bookedConference.link} &nbsp; &nbsp; <button className='h2s-blue-button' onClick={(e)=>{e.target.innerHTML='Copied!'; navigator.clipboard.writeText(bookedConference.link)}}>Copy</button></div>
-                               <div className='text-xs md:text-base font-thin text-gray'>Incase of any queries, you can reach out to us at gdsc-india@hack2skill.in</div>
+                               <div className='text-xs md:text-base font-thin text-gray'>Incase of any queries, you can reach out to us at gdsc-india@hack2skill.com</div>
                            </div>
                        </div>
                    </div>
