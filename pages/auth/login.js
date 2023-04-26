@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import LoginForm from "../../common/auth/login";
 import axios from '../../common/api/axios';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 // Redux Stuff
 import { useDispatch, useSelector } from 'react-redux';
 import { setPersist } from '../../common/redux/slices/persistSlice';
@@ -278,8 +279,18 @@ export default function Login() {
                         <></> 
                     )}
                     </div>
-                    <div className="w-full max-w-sm mx-auto">
-                        <h2 className="text-3xl font-bold pt-5">Login to Schedule <br/> Interview Slot</h2>
+                    <div className="w-11/12 lg:w-10/12 mx-auto">
+                        <h2 className="text-3xl font-semibold pt-5">Login to Schedule Interview Slot</h2>
+                        <div className="flex w-full pt-8 items-center">
+                        <Link href={`${process.env.NEXT_PUBLIC_BACKEND_API}/auth/google`} className="w-full">
+                          <button className="bg-white shadow text-gray rounded-md font-normal  focus:outline-none focus:shadow-outline  flex gap-2 justify-center items-center w-full py-2 lg:py-3"> 
+                            <img src="/auth/Google__G__Logo.png" width="20"/> Login in with Google 
+                          </button>
+                        </Link>
+                        </div>
+                        <div className="w-full flex text-xs justify-center items-center text-gray pt-6 gap-2">
+                          <hr className="w-1/2 bg-gray"/> or <hr className="w-1/2 bg-gray"/>
+                        </div>
                         <LoginForm 
                             props={{
                                 onChangeHandler,
