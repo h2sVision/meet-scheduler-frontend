@@ -43,7 +43,7 @@ const Table = ({tableHeaders, tableContent,tableName, remove, resend, resechdule
                         <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'>{key+1}</td>
                         <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'>{row.fullName}</td>
                         <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'>{row.email}</td>
-                        <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin text-google-blue cursor-pointer' onClick={()=>{router.push(`${row.email}/availability`)}}> View Availability</td>
+                        <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin text-google-blue cursor-pointer' onClick={()=>{router.push(`${row.conferences[0].eventURL}/${row.email}/availability`)}}> View Availability</td>
                         <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'>{row.conferences.length}</td>
                         <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'>{conferncesToday}</td>
                         <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'><button className='h2s-button bg-blue' onClick={()=>remove(row._id)}>Remove</button></td>
