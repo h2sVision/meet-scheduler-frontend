@@ -317,7 +317,7 @@ const Event = (props) => {
                                 <div className='text-lg text-gray w-full text-center'> No Moderators added Yet</div>
                             ):(
                                 <div className='w-full x-scroll py-4 px-2'>
-                                    <Table tableHeaders={['#','Full Name', 'Email ID', 'Availability', 'Booked Slots', 'Conferences Today', 'Remove Moderator']} tableContent={moderators} tableName={'moderatorsByEventURL'} remove={removeModerator}/>
+                                    <Table tableHeaders={['#','Full Name', 'Email ID', 'Availability', 'Booked Slots', 'Conferences Today', 'Remove Moderator']} tableContent={moderators} eventName={event?.eventURL} tableName={'moderatorsByEventURL'} remove={removeModerator}/>
                                 </div>
                             )}
                         

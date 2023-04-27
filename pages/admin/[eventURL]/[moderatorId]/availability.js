@@ -304,7 +304,7 @@ const Availability = () => {
             </Modal>
           </div>
         ):(
-          <div> Moderator has not thier availability yet</div>
+          <div> Moderator has not set thier availability yet</div>
         )}
       </div>
     </LoggedinLayout>
