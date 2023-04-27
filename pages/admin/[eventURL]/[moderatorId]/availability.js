@@ -7,6 +7,7 @@ import useAuthAxiosPrivate from '@/common/hooks/useAuthAxiosPrivate';
 
 // Components
 import LoggedinLayout from '@/common/layouts/loggedIn';
+import Table from '@/common/components/Table';
 
 // redux
 import { useSelector } from 'react-redux';
@@ -40,8 +41,19 @@ const Availability = () => {
   const [timeIntervals, setTimeIntervals]= useState([]);
   const [activeDate, setActiveDate]= useState('');
 
+  // Conferences
+  const [conferences, setConferences]= useState([]);
+
   const fetchData = async ()=>{
     try{
+      const confResponse = await axiosPrivate.get(`/admin/${window.location.href.split('/')[4]}/${window.location.href.split('/')[5]}/conferences`,{},{
+          headers: {
+              "Content-Type": "application/json"
+          },
+          withCredentials: true
+      });
+      console.log(confResponse);
+      setConferences(confResponse?.data?.result?.conferences);
       const response = await axiosPrivate.get(`/admin/${window.location.href.split('/')[4]}/${window.location.href.split('/')[5]}/availability`,{},{
           headers: {
               "Content-Type": "application/json"
@@ -297,7 +309,7 @@ const Availability = () => {
                 </div>
                 <div className='w-1/2 flex flex-col gap-5 pl-3'>
                   <div className='text-xl'>Today Booked Conference</div>
-                  {/* <div><Table tableHeaders={['Time Interval', 'Email ID']} tableContent={conferences} tableName={'calendarBookedConferences'} activeDate={activeDate}/></div> */}
+                  <div><Table tableHeaders={['Time Interval', 'Email ID']} tableContent={conferences} tableName={'calendarBookedConferences'} activeDate={activeDate}/></div>
                   <div className='w-full flex justify-center items-center text-sm'>To Reschedule the conference, contact the admin</div>
                 </div>
               </div>
