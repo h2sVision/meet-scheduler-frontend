@@ -1,9 +1,11 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 
-const Table = ({tableHeaders, tableContent,tableName, remove, resend, resechdule, activeDate,genrateOTP, switchMod, eventName}) => {
+const Table = ({tableHeaders, tableContent,tableName, remove, resend, resechdule, activeDate,genrateOTP, switchMod, eventName, download}) => {
     const router = useRouter();
   return (
+    <>
+    <div className='w-full flex justify-end items-center pb-4'><div className='h2s-button' onClick={download}>Download</div></div>
     <table className='light-shadow rounded-xl w-full'>
         <thead className='bg-google-blue text-white rounded-t-xl'>
             <tr>
@@ -96,6 +98,7 @@ const Table = ({tableHeaders, tableContent,tableName, remove, resend, resechdule
             )}
         </tbody>
     </table>
+    </>
   )
 }
 

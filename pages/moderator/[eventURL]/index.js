@@ -401,6 +401,45 @@ const Event = (props) => {
         }
     }
 
+        // Download Function
+        const download = async(e)=>{
+            console.log(e.target.parentNode.nextElementSibling);
+    
+             var csv_data = [];
+     
+             var rows = e.target.parentNode.nextElementSibling.getElementsByTagName('tr');
+             for (var i = 0; i < rows.length; i++) {
+    
+                 var cols = rows[i].querySelectorAll('td,th');
+    
+                 var csvrow = [];
+                 for (var j = 0; j < cols.length; j++) {
+    
+                     csvrow.push(cols[j].innerHTML);
+                 }
+    
+                 csv_data.push(csvrow.join(","));
+             }
+    
+             csv_data = csv_data.join('\n');
+    
+                let CSVFile = new Blob([csv_data], {
+                    type: "text/csv"
+                });
+     
+                var temp_link = document.createElement('a');
+     
+                temp_link.download = "gdsc-india.csv";
+                var url = window.URL.createObjectURL(CSVFile);
+                temp_link.href = url;
+     
+                temp_link.style.display = "none";
+                document.body.appendChild(temp_link);
+     
+                temp_link.click();
+                document.body.removeChild(temp_link);
+    
+        }
     // Fetching Data intially
     useEffect(()=>{
         if(mounted && accessToken){
@@ -420,7 +459,7 @@ const Event = (props) => {
         {activeTab === 'conferences' &&(
             <div className='w-full flex justify-center items-center'>
                 <div className='w-10/12'>
-                <Table tableHeaders={['#','Full Name','Email ID','Date and Time','Conference Link', 'Action']} tableContent={conferences} tableName={'moderatorEventConferences'} resend={resendInvite} />
+                <Table download={download} tableHeaders={['#','Full Name','Email ID','Date and Time','Conference Link', 'Action']} tableContent={conferences} tableName={'moderatorEventConferences'} resend={resendInvite} />
                 </div>
             </div>
         )}

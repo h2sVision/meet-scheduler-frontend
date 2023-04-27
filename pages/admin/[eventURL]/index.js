@@ -266,6 +266,46 @@ const Event = (props) => {
             console.log(e);
         }
     }
+
+    // Download Function
+    const download = async(e)=>{
+        console.log(e.target.parentNode.nextElementSibling);
+
+         var csv_data = [];
+ 
+         var rows = e.target.parentNode.nextElementSibling.getElementsByTagName('tr');
+         for (var i = 0; i < rows.length; i++) {
+
+             var cols = rows[i].querySelectorAll('td,th');
+
+             var csvrow = [];
+             for (var j = 0; j < cols.length; j++) {
+
+                 csvrow.push(cols[j].innerHTML);
+             }
+
+             csv_data.push(csvrow.join(","));
+         }
+
+         csv_data = csv_data.join('\n');
+
+            let CSVFile = new Blob([csv_data], {
+                type: "text/csv"
+            });
+ 
+            var temp_link = document.createElement('a');
+ 
+            temp_link.download = "gdsc-india.csv";
+            var url = window.URL.createObjectURL(CSVFile);
+            temp_link.href = url;
+ 
+            temp_link.style.display = "none";
+            document.body.appendChild(temp_link);
+ 
+            temp_link.click();
+            document.body.removeChild(temp_link);
+
+    }
     // Fetching Data intially
     useEffect(()=>{
         if(mounted && accessToken){
@@ -290,7 +330,7 @@ const Event = (props) => {
                         <div className='text-lg text-gray w-full text-center'> No Conferences Scheduled Yet</div>
                     ):(
                         <div className='w-full x-scroll py-4 px-2'>
-                            <Table tableHeaders={['#','Full Name', 'Email ID', 'Date & Time', 'Moderator Email', 'Action', 'Action', 'Switch Moderator']} tableContent={conferences} tableName={'conferencesbyEventURL'} resend={resendInvite} resechdule={OpenrescheduleModal} switchMod={OpenSwitchModModal}/>
+                            <Table download={download} tableHeaders={['#','Full Name', 'Email ID', 'Date & Time', 'Moderator Email', 'Action', 'Action', 'Switch Moderator']} tableContent={conferences} tableName={'conferencesbyEventURL'} resend={resendInvite} resechdule={OpenrescheduleModal} switchMod={OpenSwitchModModal}/>
                         </div>
                     )}
                 </div>
@@ -317,7 +357,7 @@ const Event = (props) => {
                                 <div className='text-lg text-gray w-full text-center'> No Moderators added Yet</div>
                             ):(
                                 <div className='w-full x-scroll py-4 px-2'>
-                                    <Table tableHeaders={['#','Full Name', 'Email ID', 'Availability', 'Booked Slots', 'Conferences Today', 'Remove Moderator']} tableContent={moderators} eventName={event?.eventURL} tableName={'moderatorsByEventURL'} remove={removeModerator}/>
+                                    <Table download={download} tableHeaders={['#','Full Name', 'Email ID', 'Availability', 'Booked Slots', 'Conferences Today', 'Remove Moderator']} tableContent={moderators} eventName={event?.eventURL} tableName={'moderatorsByEventURL'} remove={removeModerator}/>
                                 </div>
                             )}
                         
@@ -353,7 +393,7 @@ const Event = (props) => {
                                 <div className='text-lg text-gray w-full text-center'> No Participants added Yet</div>
                             ):(
                                 <div className='w-full x-scroll py-4 px-2'>
-                                    <Table tableHeaders={['#','Full Name', 'Email ID', 'Conference Scheduled', 'Action', 'Genrate OTP']} tableContent={participants} tableName={'participantsByEventURL'} remove={deleteParticipant} genrateOTP={genrateOTP}/>
+                                    <Table download={download} tableHeaders={['#','Full Name', 'Email ID', 'Conference Scheduled', 'Action', 'Genrate OTP']} tableContent={participants} tableName={'participantsByEventURL'} remove={deleteParticipant} genrateOTP={genrateOTP}/>
                                 </div>
                             )}
                         </div>
