@@ -269,8 +269,8 @@ const Event = (props) => {
                        <div className='text-center bg-white rounded-2xl light-shadow flex flex-col gap-5 items-center justify-center lg:w-8/12 mx-3 md:mx-8 lg:mx-16 pb-6'>
                            <div className=''><img src='/conference_Details.png'/></div>
                            <div className='md:text-lg lg:text-3xl font-bold'>🎉 Congratulations!</div>
-                           <div className='text-sm md:text-base lg:text-lg text-gray'>You have successfully scheduled your interview with Google Developers Student Clubs Lead Application process.
-                           <br/> <span className='text-sm'>an email containing deatils of interview as shown below has been sent to you</span></div>
+                           <div className='text-sm md:text-base text-gray'>You have successfully scheduled your interview with Google Developers Student Clubs Lead Application process.
+                           <br/> <span className='text-sm'>An email containing deatils of interview as shown below has been sent to you</span></div>
                            <div className='bg-dark-gray rounded-xl pb-2 px-2  mx-2 flex flex-col justify-center items-center gap-2 w-11/12  md:w-10/12'>
                                <div className='font-bold text-sm md:text-base lg:text-xl text-center border-b-2 border-white border-solid p-2 w-full'>Interview Details</div>    
                                <div className='text-xs md:text-base'><span className='font-bold'><CalendarMonthOutlinedIcon/> Date & Time: </span>&nbsp; <strong>{new Date(bookedConference.start).toDateString()}, {new Date(bookedConference.start).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true})} {new Date(bookedConference.start).toString().slice(34)}</strong></div>    
