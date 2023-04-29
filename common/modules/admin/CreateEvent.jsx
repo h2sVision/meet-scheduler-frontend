@@ -1,9 +1,10 @@
 import React from 'react'
+import CircularProgress from '@mui/material/CircularProgress';
 
 const CreateEvent = ({props}) => {
     const {submitHandler,
       onChangeHandler,
-      stateFormData,page} = props;
+      stateFormData,page, loading} = props;
   return (
     <>
     <div className='flex gap-1 flex-col w-full'>
@@ -27,7 +28,7 @@ const CreateEvent = ({props}) => {
        <input className='border-2 border-border-gray text-sm md:text-base border-solid rounded px-2 py-1'  min={stateFormData.start.value.slice(0,10)} type='date' value={stateFormData.end.value.slice(0,10)} onChange={onChangeHandler} name='end'/>
     </div>
     <div className='w-full flex justify-center items-center mt-2'>
-        {page==='editEvent'?(<button className='h2s-button' onClick={submitHandler}> Edit Event</button>):(<button className='h2s-button' onClick={submitHandler}>Create Event</button>)}
+        {page==='editEvent'?(<button className='h2s-button' onClick={submitHandler}> {loading? ( <CircularProgress/>):('')} Edit Event</button>):(<button className='h2s-button' onClick={submitHandler}> {loading? ( <CircularProgress/>):('')}Create Event</button>)}
     </div>
     </>
   )
