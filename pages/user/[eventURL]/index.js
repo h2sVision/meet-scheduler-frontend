@@ -60,11 +60,26 @@ const Event = (props) => {
             }
         }
     };
-    const fetchData = async ()=>{
-        setLoading(true)
+    const appendFunction =async(childrenArray,parent)=>{
+        for (const child of childrenArray) {
+            parent.appendChild(child); 
+            }
+    }
+    const sortSlots = async(minID, maxID)=>{
+        console.log('yeeee: ', minID,'-', maxID)
+        for(let dateId = new Date(minID); dateId <=new Date(maxID); dateId = new Date(dateId.setDate(dateId.getDate() +1))){
+            const parent = document.getElementById(dateId.toDateString());
+            const childrenArray = Array.from(parent.children);
+            console.log("Data => ", childrenArray); 
+        childrenArray.sort((a, b) => a.id.localeCompare(b.id)); 
+            await appendFunction(childrenArray, parent)
+        }
+    }
+
+    const printData = async()=>{
         try{
             const response =await  axiosPrivate.get(`/user/${window.location.href.split('/')[4]}`);
-            console.log(response);
+            console.log("printData response => ", response);
             setLoading(false)
             setName(response?.data?.result?.name);
             setDur(response?.data?.result?.duration);
@@ -212,6 +227,10 @@ const Event = (props) => {
                                 if(dateDiv){
                                     dateDiv.children[0].innerHTML='';
                                     dateDiv?.append(newSlot);
+                                    const childrenArray = Array.from(dateDiv.children);
+                                    console.log("Data => ", childrenArray); 
+                                    childrenArray.sort((a, b) => a.id.localeCompare(b.id)); 
+                                    appendFunction(childrenArray, dateDiv)
             
                                 }else{
                                     let newDateDiv = document.createElement('div');
@@ -222,6 +241,7 @@ const Event = (props) => {
                                 }
                             
                             }
+                            
                         }
                         }
                     }
@@ -244,19 +264,17 @@ const Event = (props) => {
             }
             setMaxDate(response?.data?.result?.end);
             maxID = new Date(response?.data?.result?.end).toDateString();
-            
-            if(moderators){
-            for(let dateId = new Date(minID); dateId <=new Date(maxID); dateId = new Date(dateId.setDate(dateId.getDate() +1))){
-                const parent = document.getElementById(dateId.toDateString());
-                const childrenArray = Array.from(parent.children);
+            return {min: minID, max: maxID}
+        }catch(e){
+            console.log(e)
+        }
+    }
+    const fetchData = async ()=>{
+        setLoading(true)
+        try{
 
-                childrenArray.sort((a, b) => a.id.localeCompare(b.id)); 
-
-                for (const child of childrenArray) {
-                parent.appendChild(child); 
-                }
-            }
-            }
+            const obj = await printData();
+            // await sortSlots(obj.min, obj.max);
 
         }catch(e){
             console.log(e);
