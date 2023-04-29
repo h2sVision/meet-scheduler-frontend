@@ -244,7 +244,8 @@ const Event = (props) => {
             }
             setMaxDate(response?.data?.result?.end);
             maxID = new Date(response?.data?.result?.end).toDateString();
-
+            
+            if(moderators){
             for(let dateId = new Date(minID); dateId <=new Date(maxID); dateId = new Date(dateId.setDate(dateId.getDate() +1))){
                 const parent = document.getElementById(dateId.toDateString());
                 const childrenArray = Array.from(parent.children);
@@ -254,6 +255,7 @@ const Event = (props) => {
                 for (const child of childrenArray) {
                 parent.appendChild(child); 
                 }
+            }
             }
 
         }catch(e){
@@ -319,7 +321,7 @@ const Event = (props) => {
                                 <div className='w-full relative'>
                                     <div className='w-full'><img src='/userEvent/schedule.png' className='w-full'/></div>
                                     <div className='nameContainer flex gap-2 items-end relative px-2'>
-                                        <div className='intials bg-google-blue text-2xl'>{name.charAt(0)}{name.split(' ').length > 1?(name.split(' ')[name.split(' ').length -1].charAt(0)):('')}</div>
+                                        <div className='intials bg-google-blue text-2xl'>{name?.charAt(0)}{name?.split(' ').length > 1?(name?.split(' ')[name?.split(' ').length -1].charAt(0)):('')}</div>
                                         <div className='font-semibold text-xl pt-3'>{name}</div>
                                     </div>
                                 </div>
