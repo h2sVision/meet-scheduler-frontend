@@ -231,14 +231,31 @@ const Event = (props) => {
             }else{
             setBookedConference(response?.data?.result);
             }
+            let minID;
+            let maxID;
             if(new Date()<= new Date(response?.data?.result?.start)){
                 setMinDate(response?.data?.result?.start);
+                minID = new Date(response?.data?.result?.start).toDateString();
                 openSlots(new Date(response?.data?.result?.start));
             }else{
                 setMinDate(new Date().toISOString());
+                minID =new Date().toDateString();
                 openSlots(new Date());
             }
             setMaxDate(response?.data?.result?.end);
+            maxID = new Date(response?.data?.result?.end).toDateString();
+
+            for(let dateId = new Date(minID); dateId <=new Date(maxID); dateId = new Date(dateId.setDate(dateId.getDate() +1))){
+                const parent = document.getElementById(dateId.toDateString());
+                const childrenArray = Array.from(parent.children);
+
+                childrenArray.sort((a, b) => a.id.localeCompare(b.id)); 
+
+                for (const child of childrenArray) {
+                parent.appendChild(child); 
+                }
+            }
+
         }catch(e){
             console.log(e);
             if(e?.response?.status === 403){
@@ -258,7 +275,7 @@ const Event = (props) => {
     },[])
     useEffect(()=>{
       if(mounted && accessToken){
-        fetchData('user');
+        fetchData();
       }
     },[mounted])
     useEffect(()=>{setMounted(true)},[])
@@ -345,7 +362,7 @@ const Event = (props) => {
                                                 setLoading(true)
                                                 const response = await axiosPrivate.post(`/user/${window.location.href.split('/')[4]}`,JSON.stringify({conference: conference}));
                                                     if(response?.data?.code=== 200){
-                                                        fetchData();
+                                                        await fetchData();
                                                     }
                                                     setLoading(false)
                                                 }}>
