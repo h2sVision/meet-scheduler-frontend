@@ -96,10 +96,10 @@ const Event = (props) => {
     const axiosPrivate = useAuthAxiosPrivate();
 
     const fetchData = async ()=>{
-            fetchConferences();
-            fetchModerators();
-            fetchEvent();
-            fetchParticipants();
+            await fetchConferences();
+            await fetchModerators();
+            await fetchEvent();
+            await fetchParticipants();
     }
 
     const addModerator =async()=>{
