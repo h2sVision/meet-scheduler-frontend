@@ -13,6 +13,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import CircularProgress from '@mui/material/CircularProgress';
 import HelpIcon from '@mui/icons-material/Help';
 import Link from 'next/link';
+import {useRouter} from 'next/router';
 // Intro.js
 import { Steps } from 'intro.js-react';
 const Event = (props) => {
@@ -26,6 +27,7 @@ const Event = (props) => {
     const [eventName, setEventName] = useState('');
     const [loading, setLoading] = useState(false);
     const [monthName, setMonthName]= useState(' ');
+    const router = useRouter();
 
     // Intro.js JS
     const [enabled,setEnabled] = useState(true)
@@ -238,7 +240,11 @@ const Event = (props) => {
             }
             setMaxDate(response?.data?.result?.end);
         }catch(e){
-            console.log(e)
+            console.log(e);
+            if(e?.response?.status === 403){
+                router.push('/user/dashboard');
+            }
+
         }
         setLoading(false)
 
