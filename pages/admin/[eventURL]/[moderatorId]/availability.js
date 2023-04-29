@@ -163,7 +163,7 @@ const Availability = () => {
         },
         withCredentials: true
     });
-    fetchData();
+    await fetchData();
     setEventOpen(false);
   }
 

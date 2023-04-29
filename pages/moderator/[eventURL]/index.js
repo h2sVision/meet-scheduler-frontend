@@ -224,7 +224,7 @@ const Event = (props) => {
             },
             withCredentials: true
         });
-        fetchAvailability();
+        await fetchAvailability();
         setEventOpen(false);
     }
       function handleEventClick(info) {
