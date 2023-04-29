@@ -99,7 +99,7 @@ const Event = (props) => {
             await fetchConferences();
             await fetchModerators();
             await fetchEvent();
-            await fetchParticipants();
+            await fetchParticipants(1);
     }
 
     const addModerator =async()=>{
@@ -206,8 +206,8 @@ const Event = (props) => {
           })
 
     };
-    const fetchParticipants  = async()=>{
-        const response = await axiosPrivate.get(`/admin/${window.location.href.split('/')[4]}/participants`,{},{
+    const fetchParticipants  = async(page)=>{
+        const response = await axiosPrivate.get(`/admin/${window.location.href.split('/')[4]}/participants/${page}`,{},{
             headers: {
                 "Content-Type": "application/json"
             },
