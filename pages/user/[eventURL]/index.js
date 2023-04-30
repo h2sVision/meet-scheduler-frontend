@@ -378,8 +378,9 @@ const Event = (props) => {
                                     </div>
                                     <div className='flex w-full justify-center items-center py-2'>
                                         {conference.start? (
-                                            <button className='h2s-button gap-1 flex justify-center items-center' onClick={async()=>{
-                                                setLoading(true)
+                                            <button className='h2s-button gap-1 flex justify-center items-center' id='schdulingButton' onClick={async()=>{
+                                                setLoading(true);
+                                                document.getElementById('schdulingButton').disabled = true;
                                                 const response = await axiosPrivate.post(`/user/${window.location.href.split('/')[4]}`,JSON.stringify({conference: conference}));
                                                     if(response?.data?.code=== 200){
                                                         await fetchData();
