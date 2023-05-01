@@ -107,6 +107,7 @@ const Event = (props) => {
   
     // Invoke when user click to request another page.
     const handlePageClick = async(event) => {
+        setLoading(true);
       const newOffset = (event.selected * itemsPerPage) % numberofConferences;
       console.log(
         `User requested page number ${event.selected}, which is offset ${newOffset}`
@@ -125,6 +126,7 @@ const Event = (props) => {
             console.log(e);
         }
       setItemOffset(newOffset);
+      setLoading(false);
     };
     //Pagination - Participants
     const [pitemOffset, setPItemOffset] = useState(0);
@@ -134,6 +136,7 @@ const Event = (props) => {
   
     // Invoke when user click to request another page.
     const phandlePageClick = async(event) => {
+        setLoading(true);
       const pnewOffset = (event.selected * PitemsPerPage) % numberofParticipants;
       console.log(
         `User requested page number ${event.selected}, which is offset ${pnewOffset}`
@@ -152,6 +155,7 @@ const Event = (props) => {
             console.log(e);
         }
       setPItemOffset(pnewOffset);
+      setLoading(false);
     };
 
     const fetchData = async (dataType) => {
@@ -468,21 +472,21 @@ const Event = (props) => {
                             <div className='w-full x-scroll py-4 px-2'>
                                 <Table download={download} tableHeaders={['#','Full Name', 'Email ID', 'Date & Time', 'Moderator Email', 'Action', 'Action', 'Switch Moderator']} tableContent={conferences} tableName={'conferencesbyEventURL'} resend={resendInvite} resechdule={OpenrescheduleModal} switchMod={OpenSwitchModModal}/>
                             </div>
-                            <div className='flex justify-center items-center pb-5 paginationContainer'>
-                                <ReactPaginate
-                                    breakLabel="..."
-                                    nextLabel=">"
-                                    onPageChange={handlePageClick}
-                                    pageRangeDisplayed={5}
-                                    pageCount={pageCount}
-                                    previousLabel="<"
-                                    renderOnZeroPageCount={null}
-                                />
-                            </div>
                             </>
                         )}
                         </>
                     )}
+                    <div className='flex justify-center items-center pb-5 paginationContainer'>
+                        <ReactPaginate
+                            breakLabel="..."
+                            nextLabel=">"
+                            onPageChange={handlePageClick}
+                            pageRangeDisplayed={5}
+                            pageCount={pageCount}
+                            previousLabel="<"
+                            renderOnZeroPageCount={null}
+                        />
+                    </div>
                 </div>
             )}
             {activeTab === 'manageModerators' &&(
@@ -552,21 +556,21 @@ const Event = (props) => {
                                 <div className='w-full x-scroll py-4 px-2'>
                                     <Table download={download} tableHeaders={['#','Full Name', 'Email ID', 'Conference Scheduled', 'Action', 'Genrate OTP']} tableContent={participants} tableName={'participantsByEventURL'} remove={deleteParticipant} genrateOTP={genrateOTP}/>
                                 </div>
-                                <div className='flex justify-center items-center pb-5 paginationContainer'>
-                                    <ReactPaginate
-                                        breakLabel="..."
-                                        nextLabel=">"
-                                        onPageChange={phandlePageClick}
-                                        pageRangeDisplayed={5}
-                                        pageCount={ppageCount}
-                                        previousLabel="<"
-                                        renderOnZeroPageCount={null}
-                                    />
-                                </div>
                                 </>
                             )}
                             </>
                         )}
+                        <div className='flex justify-center items-center pb-5 paginationContainer'>
+                            <ReactPaginate
+                                breakLabel="..."
+                                nextLabel=">"
+                                onPageChange={phandlePageClick}
+                                pageRangeDisplayed={5}
+                                pageCount={ppageCount}
+                                previousLabel="<"
+                                renderOnZeroPageCount={null}
+                            />
+                        </div>
                         </div>
                     </div>
                 </div>
