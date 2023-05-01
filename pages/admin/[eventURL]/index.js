@@ -425,7 +425,7 @@ const Event = (props) => {
         } 
     }, [mounted]);
       
-    useEffect(() => {
+    useEffect(() => { 
     fetchData(activeTab);
     }, [activeTab]);
 
