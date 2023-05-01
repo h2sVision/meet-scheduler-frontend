@@ -424,7 +424,7 @@ const Event = (props) => {
     useEffect(() => {
         if (mounted && accessToken) {
             fetchData('conferences');
-        }
+        } 
     }, [mounted]);
       
     useEffect(() => {
