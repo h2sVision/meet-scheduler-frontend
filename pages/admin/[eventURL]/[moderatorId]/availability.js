@@ -19,6 +19,7 @@ import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 import interactionPlugin from "@fullcalendar/interaction"
 import EditRoundedIcon from '@mui/icons-material/EditRounded';  
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import CircularProgress from '@mui/material/CircularProgress';
 import DeleteIcon from '@mui/icons-material/Delete';
 // Modal
 import Modal from '@mui/material/Modal';
@@ -44,8 +45,9 @@ const Availability = () => {
 
   // Conferences
   const [conferences, setConferences]= useState([]);
- 
+  const [loading, setLoading] = useState(false);
   const fetchData = async ()=>{
+    setLoading(true);
     try{
       const confResponse = await axiosPrivate.get(`/admin/${window.location.href.split('/')[4]}/${window.location.href.split('/')[5]}/conferences`,{},{
           headers: {
@@ -133,6 +135,7 @@ const Availability = () => {
     }catch(e){
       console.log(e)
     }
+    setLoading(false)
   }
 
   function convertTo24Hour(timeString) {
@@ -255,75 +258,79 @@ const Availability = () => {
       <div className='w-full flex flex-col py-3 justify-center items-center'>
         <div className='w-11/12 flex justify-start'><div><Link href={`/admin/${event?.eventURL}`}>Back</Link></div></div>
         <div className='flex text-center justify-center items-center'><h3 className='font-bold text-2xl'>  {moderators ? "Moderator Name : " + moderators : " " } </h3></div>
-        {availability?.length?(
-          <div className='w-11/12 p-5'>
-            <FullCalendar
-              plugins={[ dayGridPlugin, interactionPlugin ]}
-              initialView="dayGridMonth"
-              events={events}
-              eventClick={handleEventClick}
-              eventContent={eventContent}
-            />
-            <Modal
-              open={eventOpen}
-              onClose={()=>{setEventOpen(false)}}
-              className='flex justify-center items-center'>
-              <div className='w-3/5 h-96 bg-white border-0 outline-0 rounded-lg p-8 flex'>
-                <div className='w-1/2 flex flex-col gap-3 pr-3 text-xl font-bold'>
-                  Change Time Availability
-                  <div className='flex flex-col gap-4 text-base font-medium clanedarTimeIntervals'>
-                      {timeIntervals.map((timeInterval, key)=>{
-                          return (
-                            <>
-                            {timeInterval != '' &&(
-                              <div className='flex gap-4' key={key}>
-                                <div className='flex flex-col gap-2 w-48'>
-                                  <label className='text-dark-blue font-bold'>From</label>  
-                                  <input type='time' defaultValue={convertTo24Hour(timeInterval.split('-')[0])} className='border-2 border-solid border-border-gray rounded p-1'/>
+        {loading?(<><CircularProgress/></>):(
+          <>
+          {availability?.length?(
+            <div className='w-11/12 p-5'>
+              <FullCalendar
+                plugins={[ dayGridPlugin, interactionPlugin ]}
+                initialView="dayGridMonth"
+                events={events}
+                eventClick={handleEventClick}
+                eventContent={eventContent}
+              />
+              <Modal
+                open={eventOpen}
+                onClose={()=>{setEventOpen(false)}}
+                className='flex justify-center items-center'>
+                <div className='w-3/5 h-96 bg-white border-0 outline-0 rounded-lg p-8 flex'>
+                  <div className='w-1/2 flex flex-col gap-3 pr-3 text-xl font-bold'>
+                    Change Time Availability
+                    <div className='flex flex-col gap-4 text-base font-medium clanedarTimeIntervals'>
+                        {timeIntervals.map((timeInterval, key)=>{
+                            return (
+                              <>
+                              {timeInterval != '' &&(
+                                <div className='flex gap-4' key={key}>
+                                  <div className='flex flex-col gap-2 w-48'>
+                                    <label className='text-dark-blue font-bold'>From</label>  
+                                    <input type='time' defaultValue={convertTo24Hour(timeInterval.split('-')[0])} className='border-2 border-solid border-border-gray rounded p-1'/>
+                                  </div>
+                                  <div className='flex flex-col gap-2 w-48'>
+                                    <label className='text-dark-blue font-bold'>To</label>  
+                                    <input type='time' defaultValue={convertTo24Hour(timeInterval.split('-')[1])} className='border-2 border-solid border-border-gray rounded p-1'/>
+                                  </div>
+                                    {key!=0 &&(
+                                      <div className='flex justify-center items-end py-2 cursor-pointer' >
+                                          <DeleteIcon onClick={(e)=>{ console.log(e.currentTarget);e.currentTarget.parentNode.parentNode.parentNode.removeChild(e.currentTarget.parentNode.parentNode)}}/> 
+                                      </div>
+                                    )}
                                 </div>
-                                <div className='flex flex-col gap-2 w-48'>
-                                  <label className='text-dark-blue font-bold'>To</label>  
-                                  <input type='time' defaultValue={convertTo24Hour(timeInterval.split('-')[1])} className='border-2 border-solid border-border-gray rounded p-1'/>
-                                </div>
-                                  {key!=0 &&(
-                                    <div className='flex justify-center items-end py-2 cursor-pointer' >
-                                        <DeleteIcon onClick={(e)=>{ console.log(e.currentTarget);e.currentTarget.parentNode.parentNode.parentNode.removeChild(e.currentTarget.parentNode.parentNode)}}/> 
-                                    </div>
-                                  )}
-                              </div>
-                            )}
-                          </>
-                      )})}
-                      {timeIntervals.length===1 &&(
-                        <div className='flex gap-4'>
-                          <div className='flex flex-col gap-2 w-48'>
-                            <label className='text-dark-blue font-bold'>From</label>  
-                            <input type='time'  className='border-2 border-solid border-border-gray rounded p-1'/>
+                              )}
+                            </>
+                        )})}
+                        {timeIntervals.length===1 &&(
+                          <div className='flex gap-4'>
+                            <div className='flex flex-col gap-2 w-48'>
+                              <label className='text-dark-blue font-bold'>From</label>  
+                              <input type='time'  className='border-2 border-solid border-border-gray rounded p-1'/>
+                            </div>
+                            <div className='flex flex-col gap-2 w-48'>
+                              <label className='text-dark-blue font-bold'>To</label>  
+                              <input type='time' className='border-2 border-solid border-border-gray rounded p-1'/>
+                            </div>
                           </div>
-                          <div className='flex flex-col gap-2 w-48'>
-                            <label className='text-dark-blue font-bold'>To</label>  
-                            <input type='time' className='border-2 border-solid border-border-gray rounded p-1'/>
-                          </div>
+                        )}
+                                            
+                    </div>
+                      <button onClick={addTimeIntervals} className='flex gap-3 items-center justify-center text-gray text-base font-medium'><AddCircleOutlineIcon/> Add more time intervals</button>
+                        <div className='flex gap-3 w-full justify-center items-center mt-5 text-base font-medium'>
+                          <button className='h2s-button' onClick={setTime}>Set Time</button>
+                          <button className='h2s-gray-button' onClick={()=>{setEventOpen(false)}}>Back</button>
                         </div>
-                      )}
-                                          
                   </div>
-                    <button onClick={addTimeIntervals} className='flex gap-3 items-center justify-center text-gray text-base font-medium'><AddCircleOutlineIcon/> Add more time intervals</button>
-                      <div className='flex gap-3 w-full justify-center items-center mt-5 text-base font-medium'>
-                        <button className='h2s-button' onClick={setTime}>Set Time</button>
-                        <button className='h2s-gray-button' onClick={()=>{setEventOpen(false)}}>Back</button>
-                      </div>
+                  <div className='w-1/2 flex flex-col gap-5 pl-3'>
+                    <div className='text-xl'>Today Booked Conference</div>
+                    <div><Table tableHeaders={['Time Interval', 'Email ID']} tableContent={conferences} tableName={'calendarBookedConferences'} activeDate={activeDate}/></div>
+                    <div className='w-full flex justify-center items-center text-sm'>To Reschedule the conference, contact the admin</div>
+                  </div>
                 </div>
-                <div className='w-1/2 flex flex-col gap-5 pl-3'>
-                  <div className='text-xl'>Today Booked Conference</div>
-                  <div><Table tableHeaders={['Time Interval', 'Email ID']} tableContent={conferences} tableName={'calendarBookedConferences'} activeDate={activeDate}/></div>
-                  <div className='w-full flex justify-center items-center text-sm'>To Reschedule the conference, contact the admin</div>
-                </div>
-              </div>
-            </Modal>
-          </div>
-        ):(
-          <div> Moderator has not set thier availability yet</div>
+              </Modal>
+            </div>
+          ):(
+            <div> Moderator has not set thier availability yet</div>
+          )}
+          </>
         )}
       </div>
     </LoggedinLayout>
