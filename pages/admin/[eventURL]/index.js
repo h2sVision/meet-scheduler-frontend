@@ -18,6 +18,7 @@ import CreateEvent from '@/common/modules/admin/CreateEvent';
 const fileTypes = ["CSV"];
 // Modal
 import Modal from '@mui/material/Modal';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const FORM_DATA_CREATE_EVENT = {
     eventName:{
@@ -37,6 +38,7 @@ const FORM_DATA_CREATE_EVENT = {
     }
   };
 const Event = (props) => {
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
     const [leftSidebarOpen, setLeftSidebarOpen] = useState(false);
     const [moderators, setModerators] = useState([]);
@@ -76,6 +78,7 @@ const Event = (props) => {
     
         async function submitHandler(){
               try {
+                setLoading(true)
                 console.log("submit yeh hoga: ", stateFormData);
                   const response = await axiosPrivate.post(`/admin/${window.location.href.split('/')[4]}/edit`,JSON.stringify({event:{eventName: stateFormData.eventName.value, start: stateFormData.start.value, end: stateFormData.end.value, duration: stateFormData.duration.value}}),{
                       headers: {
@@ -84,63 +87,90 @@ const Event = (props) => {
                       withCredentials: true
                   });
                   console.log(response);
-                  if(response?.data?.code === 200){
-                    router.push(`/admin/${response?.data?.result?.eventURL}`);
-                  }
     
               }catch(error){
                   console.log(error)
               }
+              setLoading(false);
           }    
     // axios
     const axiosPrivate = useAuthAxiosPrivate();
 
     const fetchData = async ()=>{
-            fetchConferences();
-            fetchModerators();
-            fetchEvent();
-            fetchParticipants();
+        setLoading(true);
+            try{
+                await fetchConferences();
+                await fetchModerators();
+                await fetchEvent();
+                await fetchParticipants(1);
+            }catch(e){
+                console.log(e);
+            }
+        setLoading(false);
     }
 
     const addModerator =async()=>{
-        const response = await axiosPrivate.post(`/admin/${window.location.href.split('/')[4]}/addModerator`,JSON.stringify({email: document.getElementById('moderatorEmail').value, name: document.getElementById('moderatorName').value}),{
-            headers: {
-                "Content-Type": "application/json"
-            },
-            withCredentials: true
-        });
-        fetchModerators();
+        setLoading(true)
+        try{
+            const response = await axiosPrivate.post(`/admin/${window.location.href.split('/')[4]}/addModerator`,JSON.stringify({email: document.getElementById('moderatorEmail').value, name: document.getElementById('moderatorName').value}),{
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                withCredentials: true
+            });
+            await fetchModerators();
+        }catch(e){
+            console.log(e);
+        }
+        setLoading(false);
     }
     const removeModerator =async(moderatorId)=>{
-        console.log('inside remove moderator function: ', moderatorId);
-        const response = await axiosPrivate.post(`/admin/${window.location.href.split('/')[4]}/remove-moderator`,JSON.stringify({moderatorId: moderatorId}),{
-            headers: {
-                "Content-Type": "application/json"
-            },
-            withCredentials: true
-        });
-        fetchModerators();
+        setLoading(true)
+        try{
+            const response = await axiosPrivate.post(`/admin/${window.location.href.split('/')[4]}/remove-moderator`,JSON.stringify({moderatorId: moderatorId}),{
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                withCredentials: true
+            });
+            await fetchModerators();
+        }catch(e){
+            console.log(e);
+        }
+        setLoading(false);
     }
 
     const fetchModerators = async()=>{
-        const response = await axiosPrivate.get(`/admin/${window.location.href.split('/')[4]}/moderators`,{},{
-            headers: {
-                "Content-Type": "application/json"
-            },
-            withCredentials: true
-        });
-        console.log(response);
-        setModerators(response?.data?.result);
+        setLoading(true);
+        try{
+            const response = await axiosPrivate.get(`/admin/${window.location.href.split('/')[4]}/moderators`,{},{
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                withCredentials: true
+            });
+            console.log(response);
+            setModerators(response?.data?.result);
+        }catch(e){
+            console.log(e)
+        }
+        setLoading(false);
     }
     const fetchConferences = async()=>{
-        const response = await axiosPrivate.get(`/admin/${window.location.href.split('/')[4]}/conferences`,{},{
-            headers: {
-                "Content-Type": "application/json"
-            },
-            withCredentials: true
-        });
-        console.log(response);
-        setConferences(response?.data?.result)
+        setLoading(true);
+        try{
+            const response = await axiosPrivate.get(`/admin/${window.location.href.split('/')[4]}/conferences`,{},{
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                withCredentials: true
+            });
+            console.log(response);
+            setConferences(response?.data?.result)
+        }catch(e){
+            console.log(e);
+        }
+        setLoading(false);
     };
     const [rescheduleModalOpen,setRescheduleModalOpen] = useState(false);
     const [currentConference, setCurrentConference] = useState({});
@@ -148,8 +178,15 @@ const Event = (props) => {
         setCurrentConference(conf);
         setRescheduleModalOpen(true);
     }
+    const [switchModModalOpen,setSwitchModModalOpen] = useState(false);
+    const OpenSwitchModModal =(conf)=>{
+        setCurrentConference(conf);
+        setSwitchModModalOpen(true);
+    }
     const rescheduleConference = async()=>{
-        const rescheduleDate = document.getElementById('rescheduleDate').value;
+        setLoading(true)
+        try{
+            const rescheduleDate = document.getElementById('rescheduleDate').value;
         const rescheduleTime = document.getElementById('rescheduleTime').value;
         console.log('start: ' ,new Date(rescheduleDate+ ' ' +rescheduleTime ));
         let start = new Date(rescheduleDate+ ' ' +rescheduleTime );
@@ -162,16 +199,25 @@ const Event = (props) => {
             },
             withCredentials: true
         });
-        fetchConferences();
+        await fetchConferences();
+        }catch(e){
+            console.log(e)
+        }
+        setLoading(false);
+
     }
     const resendInvite = async(email, moderatorEmail)=>{
-        const response = await axiosPrivate.post(`/admin/${window.location.href.split('/')[4]}/resend-invite`,JSON.stringify({email: email, moderatorEmail: moderatorEmail}),{
-            headers: {
-                "Content-Type": "application/json"
-            },
-            withCredentials: true
-        });
-        console.log(response);
+        try{
+            const response = await axiosPrivate.post(`/admin/${window.location.href.split('/')[4]}/resend-invite`,JSON.stringify({email: email, moderatorEmail: moderatorEmail}),{
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                withCredentials: true
+            });
+            console.log(response);
+        }catch(e){
+            console.log(e);
+        }
     }
     const fetchEvent = async()=>{
         const response = await axiosPrivate.get(`/admin/${window.location.href.split('/')[4]}`,{},{
@@ -201,8 +247,8 @@ const Event = (props) => {
           })
 
     };
-    const fetchParticipants  = async()=>{
-        const response = await axiosPrivate.get(`/admin/${window.location.href.split('/')[4]}/participants`,{},{
+    const fetchParticipants  = async(page)=>{
+        const response = await axiosPrivate.get(`/admin/${window.location.href.split('/')[4]}/participants/${page}`,{},{
             headers: {
                 "Content-Type": "application/json"
             },
@@ -219,7 +265,7 @@ const Event = (props) => {
             withCredentials: true
         });
         console.log(response);
-        fetchParticipants();
+       await fetchParticipants();
     }
     const [file, setFile] = useState(null)
 
@@ -237,7 +283,7 @@ const Event = (props) => {
                 'Content-Type': 'multipart/form-data'
               }
         });
-        fetchParticipants();
+        await fetchParticipants();
     }
 
     const genrateOTP =async(email)=>{
@@ -248,6 +294,59 @@ const Event = (props) => {
         }catch(e){
             console.log(e);
         }
+    }
+    const switchMod = async()=>{
+        try{
+            const response = await axiosPrivate.post(`/admin/${window.location.href.split('/')[4]}/switch-moderator`,{email: currentConference?.email, moderatorEmail: currentConference?.moderatorEmail, newModerator: document.getElementById('newMod').value});
+            console.log(response);
+            if(response.status ===200){
+                await fetchConferences();
+                setSwitchModModalOpen(false);
+            }
+            await fetchConferences();
+        }catch(e){
+            console.log(e);
+        }
+    }
+
+    // Download Function
+    const download = async(e)=>{
+        console.log(e.target.parentNode.nextElementSibling);
+
+         var csv_data = [];
+ 
+         var rows = e.target.parentNode.nextElementSibling.getElementsByTagName('tr');
+         for (var i = 0; i < rows.length; i++) {
+
+             var cols = rows[i].querySelectorAll('td,th');
+
+             var csvrow = [];
+             for (var j = 0; j < cols.length; j++) {
+
+                 csvrow.push(cols[j].innerHTML);
+             }
+
+             csv_data.push(csvrow.join(","));
+         }
+
+         csv_data = csv_data.join('\n');
+
+            let CSVFile = new Blob([csv_data], {
+                type: "text/csv"
+            });
+ 
+            var temp_link = document.createElement('a');
+ 
+            temp_link.download = "gdsc-india.csv";
+            var url = window.URL.createObjectURL(CSVFile);
+            temp_link.href = url;
+ 
+            temp_link.style.display = "none";
+            document.body.appendChild(temp_link);
+ 
+            temp_link.click();
+            document.body.removeChild(temp_link);
+
     }
     // Fetching Data intially
     useEffect(()=>{
@@ -268,13 +367,17 @@ const Event = (props) => {
             {activeTab === 'conferences' &&(
                 <div className='w-11/12  px-5 flex flex-col gap-5'>
                     <div className='text-2xl font-bold'>{event?.eventName}:&nbsp;<span></span></div>
-                    {conferences.length===0? (
-                        
-                        <div className='text-lg text-gray w-full text-center'> No Conferences Scheduled Yet</div>
-                    ):(
-                        <div className='w-full x-scroll py-4 px-2'>
-                            <Table tableHeaders={['#','Full Name', 'Email ID', 'Date & Time', 'Moderator Email', 'Action', 'Action']} tableContent={conferences} tableName={'conferencesbyEventURL'} resend={resendInvite} resechdule={OpenrescheduleModal}/>
-                        </div>
+                    {loading? (<CircularProgress/>) :(
+                        <>
+                        {conferences?.length===0? (
+                            
+                            <div className='text-lg text-gray w-full text-center'> No Conferences Scheduled Yet</div>
+                        ):(
+                            <div className='w-full x-scroll py-4 px-2'>
+                                <Table download={download} tableHeaders={['#','Full Name', 'Email ID', 'Date & Time', 'Moderator Email', 'Action', 'Action', 'Switch Moderator']} tableContent={conferences} tableName={'conferencesbyEventURL'} resend={resendInvite} resechdule={OpenrescheduleModal} switchMod={OpenSwitchModModal}/>
+                            </div>
+                        )}
+                        </>
                     )}
                 </div>
             )}
@@ -296,14 +399,17 @@ const Event = (props) => {
                         </div>
                         {/* Moderator Management Table */}
                         <div>
+                        {loading? (<CircularProgress/>) :(
+                            <>
                             {moderators.length === 0 ?(
                                 <div className='text-lg text-gray w-full text-center'> No Moderators added Yet</div>
                             ):(
                                 <div className='w-full x-scroll py-4 px-2'>
-                                    <Table tableHeaders={['#','Full Name', 'Email ID', 'Total Slots', 'Booked Slots', 'Conferences Today', 'Remove Moderator']} tableContent={moderators} tableName={'moderatorsByEventURL'} remove={removeModerator}/>
+                                    <Table download={download} tableHeaders={['#','Full Name', 'Email ID', 'Availability', 'Booked Slots', 'Conferences Today', 'Remove Moderator']} tableContent={moderators} eventName={event?.eventURL} tableName={'moderatorsByEventURL'} remove={removeModerator}/>
                                 </div>
                             )}
-                        
+                            </>
+                        )}
                         </div>
                     </div>
                 </div>
@@ -332,13 +438,17 @@ const Event = (props) => {
                         </div>
                         {/* Participant Management Table */}
                         <div>
+                        {loading? (<CircularProgress/>) :(
+                            <>
                             {participants.length === 0?(
                                 <div className='text-lg text-gray w-full text-center'> No Participants added Yet</div>
                             ):(
                                 <div className='w-full x-scroll py-4 px-2'>
-                                    <Table tableHeaders={['#','Full Name', 'Email ID', 'Conference Scheduled', 'Action', 'Genrate OTP']} tableContent={participants} tableName={'participantsByEventURL'} remove={deleteParticipant} genrateOTP={genrateOTP}/>
+                                    <Table download={download} tableHeaders={['#','Full Name', 'Email ID', 'Conference Scheduled', 'Action', 'Genrate OTP']} tableContent={participants} tableName={'participantsByEventURL'} remove={deleteParticipant} genrateOTP={genrateOTP}/>
                                 </div>
                             )}
+                            </>
+                        )}
                         </div>
                     </div>
                 </div>
@@ -355,7 +465,8 @@ const Event = (props) => {
                                 <CreateEvent props={{submitHandler,
                                     onChangeHandler,
                                     stateFormData,
-                                    page:'editEvent'
+                                    page:'editEvent',
+                                    loading
                                     }}/>
                                 </div>
                             </div>
@@ -376,6 +487,25 @@ const Event = (props) => {
                     <div><span className='text-dark-blue font-semibold'> Enter New Date: </span> &nbsp; <input id='rescheduleDate' className='border-2 border-border-gray rounded-md px-2 border-solid' type='date'/></div>
                     <div><span className='text-dark-blue font-semibold'> Enter New Time: </span> &nbsp; <input id='rescheduleTime' className='border-2 border-border-gray rounded-md px-2 border-solid' type='time'/></div>
                     <button className='h2s-button' onClick={rescheduleConference}>Reschedule</button>
+                </div>
+            </Modal>
+             <Modal
+                open={switchModModalOpen}
+                onClose={()=>{setSwitchModModalOpen(false)}}
+                className='flex justify-center items-center'>
+                <div className='w-2/5 bg-white border-0 outline-0 rounded-lg p-8 flex flex-col gap-5'>
+                    <div className='font-bold text-dark-blue text-xl'>Switch Moderator</div>
+                    <div><span className='text-dark-blue font-semibold'>Participant Email: </span> {currentConference?.email}</div>
+                    <div><span className='text-dark-blue font-semibold'>Date & Time: </span> {new Date(currentConference?.start).toLocaleString()}</div>
+                    <div><span className='text-dark-blue font-semibold'>Current Moderator: </span> {currentConference?.moderatorEmail}</div>
+                    <div><span className='text-dark-blue font-semibold'>Select New Moderator: </span>
+                        <select className='border-solid border-2 border-gray rounded-md p-1' id='newMod'>
+                            {moderators.map((mod, key)=>(
+                                <option key={key}>{mod.email}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <button className='h2s-button' onClick={switchMod}>Switch</button>
                 </div>
             </Modal>
         </div>

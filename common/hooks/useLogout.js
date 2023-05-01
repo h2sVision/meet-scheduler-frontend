@@ -7,7 +7,11 @@ const useLogout =() =>{
     const axiosPrivate = useAuthAxiosPrivate();
     const router = useRouter();
     const logout =async () =>{
-        dispatch(setuser({}));
+        dispatch(setuser({
+            email: '',
+            accessToken:'',
+            role:''
+        }));
         console.log("in logout function");
         try{
             const response = await axiosPrivate.post('/auth/logout');
