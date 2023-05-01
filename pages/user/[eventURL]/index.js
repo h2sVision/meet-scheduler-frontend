@@ -16,6 +16,7 @@ import Link from 'next/link';
 import {useRouter} from 'next/router';
 // Intro.js
 import { Steps } from 'intro.js-react';
+import { borderRadius, fontWeight } from '@mui/system';
 const Event = (props) => {
     const [leftSidebarOpen, setLeftSidebarOpen] = useState(false);
     const [minDate, setMinDate] = useState();
@@ -306,7 +307,7 @@ const Event = (props) => {
     </Head>
     <LoggedinLayout leftSidebarOpen={leftSidebarOpen} setLeftSidebarOpen={setLeftSidebarOpen} fetchData={fetchData}>
        
-       <div className='flex w-full justify-center items-center certerPageItems colMd'>
+       <div className='flex w-full flex-col justify-center items-center certerPageItems colMd'>
                {bookedConference.link ? (
                    <div className='flex w-full h-full justify-center bg-faint-blue items-center certerPageItems'>
                        <div className='text-center bg-white rounded-2xl light-shadow flex flex-col gap-5 items-center justify-center lg:w-8/12 mx-3 md:mx-8 lg:mx-16 pb-6'>
@@ -332,7 +333,17 @@ const Event = (props) => {
                     // initialStep={initialStep}
                     onExit={onExit}
                     /> */}
+                    <div className='flex flex-col w-full p-2 mb-3'>
+                        <div style={{ backgroundColor: '#fef3c7', padding: '10px 10px 6px 10px', borderRadius: '8px' }}>
+                            <marquee behavior="scroll" direction="left">
+                                <span style={{ color: '#f59e0b' }}>
+                                    More slots will be opening soon. The slots will be available till 25<sup>th</sup> of May 2023.
+                                </span>
+                            </marquee>
+                        </div>
+                    </div>
                     <div className='flex-col lg:flex-row w-full mx-5 flex gap-5 justify-center items-start p-2 '>
+                        
                         {/* Conference Details */}
                         <div className='flex flex-col gap-5 w-full md:w-11/12 lg:w-1/5 '>
                             <div className=' w-full bg-white rounded-xl light-shadow flex flex-col gap-5 items-center justify-center'>

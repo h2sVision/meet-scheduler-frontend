@@ -22,6 +22,7 @@ module.exports = {
       'google-blue':'#0066FF',
       'card-blue':'#CFE2FF',
       'dark-blue':'#1E3354',
+      'red-300':'#fca5a5',
       'red-500': 'rgb(239 68 68)',
       'green-500': 'rgb(34 197 94)',
       'red-100': 'rgb(254 226 226)',
