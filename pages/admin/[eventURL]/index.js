@@ -19,6 +19,7 @@ const fileTypes = ["CSV"];
 // Modal
 import Modal from '@mui/material/Modal';
 import CircularProgress from '@mui/material/CircularProgress';
+import ReactPaginate from 'react-paginate';
 
 const FORM_DATA_CREATE_EVENT = {
     eventName:{
@@ -43,6 +44,7 @@ const Event = (props) => {
     const [leftSidebarOpen, setLeftSidebarOpen] = useState(false);
     const [moderators, setModerators] = useState([]);
     const [conferences, setConferences] = useState([]);
+    const [numberofConferences, setNumberofConferences] = useState(0);
     const [participants, setParticipants] = useState([]);
     const [event, setEvent] = useState({});
     const [mounted , setMounted] = useState(false);  
@@ -96,6 +98,34 @@ const Event = (props) => {
     // axios
     const axiosPrivate = useAuthAxiosPrivate();
 
+    //Pagination
+    const [itemOffset, setItemOffset] = useState(0);
+    const itemsPerPage =10;
+    const endOffset = itemOffset + itemsPerPage;
+    const pageCount = Math.ceil(numberofConferences / itemsPerPage);
+  
+    // Invoke when user click to request another page.
+    const handlePageClick = async(event) => {
+      const newOffset = (event.selected * itemsPerPage) % numberofConferences;
+      console.log(
+        `User requested page number ${event.selected}, which is offset ${newOffset}`
+
+      );
+        try{
+            const response = await axiosPrivate.get(`/admin/${window.location.href.split('/')[4]}/conferences/${event.selected +1}`,{},{
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                withCredentials: true
+            });
+            console.log(response);
+            setConferences(response?.data?.result)
+        }catch(e){
+            console.log(e);
+        }
+      setItemOffset(newOffset);
+    };
+  
     const fetchData = async ()=>{
         setLoading(true);
             try{
@@ -166,7 +196,8 @@ const Event = (props) => {
                 withCredentials: true
             });
             console.log(response);
-            setConferences(response?.data?.result)
+            setConferences(response?.data?.result);
+            setNumberofConferences(response?.data?.number);
         }catch(e){
             console.log(e);
         }
@@ -373,9 +404,22 @@ const Event = (props) => {
                             
                             <div className='text-lg text-gray w-full text-center'> No Conferences Scheduled Yet</div>
                         ):(
+                            <>
                             <div className='w-full x-scroll py-4 px-2'>
                                 <Table download={download} tableHeaders={['#','Full Name', 'Email ID', 'Date & Time', 'Moderator Email', 'Action', 'Action', 'Switch Moderator']} tableContent={conferences} tableName={'conferencesbyEventURL'} resend={resendInvite} resechdule={OpenrescheduleModal} switchMod={OpenSwitchModModal}/>
                             </div>
+                            <div className='flex justify-center items-center pb-5 paginationContainer'>
+                                <ReactPaginate
+                                    breakLabel="..."
+                                    nextLabel="next >"
+                                    onPageChange={handlePageClick}
+                                    pageRangeDisplayed={5}
+                                    pageCount={pageCount}
+                                    previousLabel="< previous"
+                                    renderOnZeroPageCount={null}
+                                />
+                            </div>
+                            </>
                         )}
                         </>
                     )}
