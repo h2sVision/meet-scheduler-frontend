@@ -101,7 +101,7 @@ const Event = (props) => {
         try {
           switch (dataType) {
             case 'conferences':
-                await fetchConferences();
+                await fetchConferences(1);
                 break;
             case 'manageModerators':
                 await fetchModerators();
@@ -168,10 +168,10 @@ const Event = (props) => {
         }
         setLoading(false);
     }
-    const fetchConferences = async()=>{
+    const fetchConferences = async(page)=>{
         setLoading(true);
         try{
-            const response = await axiosPrivate.get(`/admin/${window.location.href.split('/')[4]}/conferences`,{},{
+            const response = await axiosPrivate.get(`/admin/${window.location.href.split('/')[4]}/conferences/${page}`,{},{
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -211,7 +211,7 @@ const Event = (props) => {
             },
             withCredentials: true
         });
-        await fetchConferences();
+        await fetchConferences(1);
         }catch(e){
             console.log(e)
         }
@@ -312,10 +312,10 @@ const Event = (props) => {
             const response = await axiosPrivate.post(`/admin/${window.location.href.split('/')[4]}/switch-moderator`,{email: currentConference?.email, moderatorEmail: currentConference?.moderatorEmail, newModerator: document.getElementById('newMod').value});
             console.log(response);
             if(response.status ===200){
-                await fetchConferences();
+                await fetchConferences(1);
                 setSwitchModModalOpen(false);
             }
-            await fetchConferences();
+            await fetchConferences(1);
         }catch(e){
             console.log(e);
         }
