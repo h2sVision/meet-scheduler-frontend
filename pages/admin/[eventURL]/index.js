@@ -428,11 +428,11 @@ const Event = (props) => {
                             <div className='flex justify-center items-center pb-5 paginationContainer'>
                                 <ReactPaginate
                                     breakLabel="..."
-                                    nextLabel="next >"
+                                    nextLabel=">"
                                     onPageChange={handlePageClick}
                                     pageRangeDisplayed={5}
                                     pageCount={pageCount}
-                                    previousLabel="< previous"
+                                    previousLabel="<"
                                     renderOnZeroPageCount={null}
                                 />
                             </div>
