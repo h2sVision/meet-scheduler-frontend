@@ -479,7 +479,7 @@ const Event = (props) => {
   return (
    <>
    <Head>
-        <title>{event?.eventName} | Moderator</title>
+        <title>{event?.eventName} | Moderator</title> 
    </Head>
     <LoggedinLayout leftSidebarOpen={leftSidebarOpen} setLeftSidebarOpen={setLeftSidebarOpen} fetchData={fetchData}>
         <div className={`flex flex-col w-full ${activeTab === 'availability'? ('bg-faint-blue h-screen'):('')}`}>
