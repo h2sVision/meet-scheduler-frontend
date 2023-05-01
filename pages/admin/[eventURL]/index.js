@@ -98,6 +98,7 @@ const Event = (props) => {
 
     const fetchData = async (dataType) => {
         setLoading(true);
+        await fetchEvent();
         try {
           switch (dataType) {
             case 'conferences':
@@ -108,9 +109,6 @@ const Event = (props) => {
                 break;
             case 'manageParticipants':
                 await fetchParticipants(1);
-                break;
-            case 'editEvent':
-                await fetchEvent();
                 break;
             default:
                 break;
