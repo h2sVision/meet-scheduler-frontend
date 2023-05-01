@@ -96,18 +96,30 @@ const Event = (props) => {
     // axios
     const axiosPrivate = useAuthAxiosPrivate();
 
-    const fetchData = async ()=>{
+    const fetchData = async (dataType) => {
         setLoading(true);
-            try{
+        try {
+          switch (dataType) {
+            case 'conferences':
                 await fetchConferences();
+                break;
+            case 'manageModerators':
                 await fetchModerators();
-                await fetchEvent();
+                break;
+            case 'manageParticipants':
                 await fetchParticipants(1);
-            }catch(e){
-                console.log(e);
-            }
+                break;
+            case 'editEvent':
+                await fetchEvent();
+                break;
+            default:
+                break;
+          }
+        } catch (e) {
+          console.log(e);
+        }
         setLoading(false);
-    }
+      };
 
     const addModerator =async()=>{
         setLoading(true)
@@ -349,11 +361,16 @@ const Event = (props) => {
 
     }
     // Fetching Data intially
-    useEffect(()=>{
-        if(mounted && accessToken){
-          fetchData();
+    useEffect(() => {
+        if (mounted && accessToken) {
+            fetchData('conferences');
         }
-    },[mounted]);
+    }, [mounted]);
+      
+    useEffect(() => {
+    fetchData(activeTab);
+    }, [activeTab]);
+
     useEffect(()=>{setMounted(true)},[]);
 
   return (
