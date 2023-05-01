@@ -79,88 +79,100 @@ const Event = (props) => {
     }
 
     const fetchAvailability = async()=>{
-        const response = await axiosPrivate.get(`/moderator/${window.location.href.split('/')[4]}/availability`,{},{
-            headers: {
-                "Content-Type": "application/json"
-            },
-            withCredentials: true
-        });
-        console.log(response);
-        seteEvent(response?.data?.result?.event);
-        if (response?.data?.result?.availability.length>0){
-            setTableOpen(true)
-        }
-
-        // Calendar Events creation
-        let Tempevents =[];
-        let datesinAvailibility =[];
-        for(let i =0; i<response?.data?.result?.availability?.length;i++){
-            console.log("getting here");
-            let titleString='';
-            for(let j=0;j<response?.data?.result?.availability[i].hours.length;j++){
-                titleString+= new Date(response?.data?.result?.availability[i]?.hours[j]?.start).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) +'-'+new Date(response?.data?.result?.availability[i].hours[j].end).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })+'\n'
+        setLoading(true);
+        try{
+            const response = await axiosPrivate.get(`/moderator/${window.location.href.split('/')[4]}/availability`,{},{
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                withCredentials: true
+            });
+            console.log(response);
+            seteEvent(response?.data?.result?.event);
+            if (response?.data?.result?.availability.length>0){
+                setTableOpen(true)
             }
-            console.log('normal title String: ', titleString);
-            for(let j= new Date(response?.data?.result?.availability[i].start);j<=new Date(response?.data?.result?.availability[i].end);){
-                
-                let newTitleString='';
-                for(let k =0; k<response?.data?.result?.customHours?.length;k++){
-                    console.log(new Date(response?.data?.result?.customHours[k].date).toDateString(),'-', j.toDateString());
-                    if(new Date(response?.data?.result?.customHours[k].date).toDateString() === j.toDateString() ){
-                        console.log('eqaul h ')
-                        for(let l =0; l<response?.data?.result?.customHours[k].hours.length ; l++){
-                            newTitleString+=new Date(response?.data?.result?.customHours[k].hours[l].start).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) +'-'+new Date(response?.data?.result?.customHours[k].hours[l].end).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })+'\n'
-                        }
-                        console.log(newTitleString);
-                    }
+    
+            // Calendar Events creation
+            let Tempevents =[];
+            let datesinAvailibility =[];
+            for(let i =0; i<response?.data?.result?.availability?.length;i++){
+                console.log("getting here");
+                let titleString='';
+                for(let j=0;j<response?.data?.result?.availability[i].hours.length;j++){
+                    titleString+= new Date(response?.data?.result?.availability[i]?.hours[j]?.start).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) +'-'+new Date(response?.data?.result?.availability[i].hours[j].end).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })+'\n'
                 }
-                datesinAvailibility.push(new Date(j).toDateString())
-                clickableDates.push(formatDate(j));
-                Tempevents.push({
-                    title: newTitleString.length>1? (newTitleString):(titleString),
-                    start: formatDate(j)
-                })
-                j.setDate(j.getDate() + 1);
-            }
-        }
-        let eDates=[]
-        for(let i =new Date(response?.data?.result?.event.start); i<=new Date(response?.data?.result?.event.end);){
-            eDates.push(i.toDateString());
-            if(!datesinAvailibility.includes(i.toDateString())){
-                let newTitleString='';
-                for(let k =0; k<response?.data?.result?.customHours?.length;k++){
-                    console.log(new Date(response?.data?.result?.customHours[k].date).toDateString(),'-', i.toDateString());
-                    if(new Date(response?.data?.result?.customHours[k].date).toDateString() === i.toDateString() ){
-                        console.log('eqaul h ')
-                        for(let l =0; l<response?.data?.result?.customHours[k].hours.length ; l++){
-                            newTitleString+=new Date(response?.data?.result?.customHours[k].hours[l].start).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) +'-'+new Date(response?.data?.result?.customHours[k].hours[l].end).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })+'\n'
+                console.log('normal title String: ', titleString);
+                for(let j= new Date(response?.data?.result?.availability[i].start);j<=new Date(response?.data?.result?.availability[i].end);){
+                    
+                    let newTitleString='';
+                    for(let k =0; k<response?.data?.result?.customHours?.length;k++){
+                        console.log(new Date(response?.data?.result?.customHours[k].date).toDateString(),'-', j.toDateString());
+                        if(new Date(response?.data?.result?.customHours[k].date).toDateString() === j.toDateString() ){
+                            console.log('eqaul h ')
+                            for(let l =0; l<response?.data?.result?.customHours[k].hours.length ; l++){
+                                newTitleString+=new Date(response?.data?.result?.customHours[k].hours[l].start).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) +'-'+new Date(response?.data?.result?.customHours[k].hours[l].end).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })+'\n'
+                            }
+                            console.log(newTitleString);
                         }
-                        console.log(newTitleString);
                     }
+                    datesinAvailibility.push(new Date(j).toDateString())
+                    clickableDates.push(formatDate(j));
+                    Tempevents.push({
+                        title: newTitleString.length>1? (newTitleString):(titleString),
+                        start: formatDate(j)
+                    })
+                    j.setDate(j.getDate() + 1);
                 }
-                clickableDates.push(formatDate(i));
-                Tempevents.push({
-                    title: newTitleString.length>1? (newTitleString):(''),
-                    start:formatDate(i)
-                })
             }
-            i.setDate(i.getDate() + 1);
+            let eDates=[]
+            for(let i =new Date(response?.data?.result?.event.start); i<=new Date(response?.data?.result?.event.end);){
+                eDates.push(i.toDateString());
+                if(!datesinAvailibility.includes(i.toDateString())){
+                    let newTitleString='';
+                    for(let k =0; k<response?.data?.result?.customHours?.length;k++){
+                        console.log(new Date(response?.data?.result?.customHours[k].date).toDateString(),'-', i.toDateString());
+                        if(new Date(response?.data?.result?.customHours[k].date).toDateString() === i.toDateString() ){
+                            console.log('eqaul h ')
+                            for(let l =0; l<response?.data?.result?.customHours[k].hours.length ; l++){
+                                newTitleString+=new Date(response?.data?.result?.customHours[k].hours[l].start).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) +'-'+new Date(response?.data?.result?.customHours[k].hours[l].end).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })+'\n'
+                            }
+                            console.log(newTitleString);
+                        }
+                    }
+                    clickableDates.push(formatDate(i));
+                    Tempevents.push({
+                        title: newTitleString.length>1? (newTitleString):(''),
+                        start:formatDate(i)
+                    })
+                }
+                i.setDate(i.getDate() + 1);
+            }
+            setEventDates(eDates);
+    
+            console.log('clickableDates: ', clickableDates)
+            seteEvents(Tempevents);
+        }catch(e){
+            console.log(e);
         }
-        setEventDates(eDates);
-
-        console.log('clickableDates: ', clickableDates)
-        seteEvents(Tempevents);
+        setLoading(false);
     }
 
     const fetchConferences = async()=>{
-        const response = await axiosPrivate.get(`/moderator/${window.location.href.split('/')[4]}/conferences`,{},{
-            headers: {
-                "Content-Type": "application/json"
-            },
-            withCredentials: true
-        });
-        console.log(response);
-        setConferences(response?.data?.result?.conferences);
+        setLoading(true);
+        try{
+            const response = await axiosPrivate.get(`/moderator/${window.location.href.split('/')[4]}/conferences`,{},{
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                withCredentials: true
+            });
+            console.log(response);
+            setConferences(response?.data?.result?.conferences);
+        }catch(e){
+            console.log(e);
+        }
+        setLoading(false);
     }
 
     const [eventOpen, setEventOpen]= useState(false);
@@ -204,28 +216,34 @@ const Event = (props) => {
         return `${hoursNum.toString().padStart(2, '0')}:${minutes.padStart(2, '0')}`;
     }
     const setTime = async()=>{
-        let allIntputs = document.getElementsByClassName('clanedarTimeIntervals')[0].getElementsByTagName('input');
-        let hours=[];
-        for(let i=0; i< allIntputs.length;i+=2){
-            let newInterval = {
-                start: new Date(new Date().toDateString() +' '+ allIntputs[i].value).toISOString(),
-                end: new Date(new Date().toDateString()+' ' + allIntputs[i+1].value).toISOString(),
+        setLoading(true);
+        try{
+            let allIntputs = document.getElementsByClassName('clanedarTimeIntervals')[0].getElementsByTagName('input');
+            let hours=[];
+            for(let i=0; i< allIntputs.length;i+=2){
+                let newInterval = {
+                    start: new Date(new Date().toDateString() +' '+ allIntputs[i].value).toISOString(),
+                    end: new Date(new Date().toDateString()+' ' + allIntputs[i+1].value).toISOString(),
+                }
+                hours.push(newInterval);
             }
-            hours.push(newInterval);
+            let customHour={
+                date: activeDate,
+                hours: hours
+            }
+            console.log('custom Hour: ', customHour);
+            const response = await axiosPrivate.post(`/moderator/${window.location.href.split('/')[4]}/customHours`,JSON.stringify({customHour: customHour}),{
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                withCredentials: true
+            });
+            await fetchAvailability();
+            setEventOpen(false);
+        }catch(e){
+            console.log(e);
         }
-        let customHour={
-            date: activeDate,
-            hours: hours
-        }
-        console.log('custom Hour: ', customHour);
-        const response = await axiosPrivate.post(`/moderator/${window.location.href.split('/')[4]}/customHours`,JSON.stringify({customHour: customHour}),{
-            headers: {
-                "Content-Type": "application/json"
-            },
-            withCredentials: true
-        });
-        await fetchAvailability();
-        setEventOpen(false);
+        setLoading(false);
     }
       function handleEventClick(info) {
         // Do something with the clicked event, such as open a dialog box
@@ -237,6 +255,7 @@ const Event = (props) => {
         setEventOpen(true);
       }
       const resendInvite = async(email, moderatorEmail)=>{
+       try{
         const response = await axiosPrivate.post(`/moderator/${window.location.href.split('/')[4]}/resend-invite`,JSON.stringify({email: email}),{
             headers: {
                 "Content-Type": "application/json"
@@ -244,6 +263,9 @@ const Event = (props) => {
             withCredentials: true
         });
         console.log(response);
+       }catch(e){
+        console.log(e);
+       }
     }
     const addTimeIntervals =(e)=>{
         const item = document.createElement('div');
@@ -361,44 +383,50 @@ const Event = (props) => {
       }
 
     const saveAvailability =async() =>{
-        let availability =[];
-        for(let i =0; i<document.getElementById('availability').children.length;i++){
-            let disableSat= document.getElementById('availability').children[i].children[0].children[1].children[2].children[0].checked;
-            // let  disableSun =document.getElementById('availability').children[i].children[0].children[1].children[3].children[0].checked;
-            let distributedAvailibilities=[];
-            let hours = [];
-            for(let j=0; j<document.getElementById('availability').children[i].children[1].children[1].children[0].children.length; j++){
-                let interval ={
-                    start: new Date(new Date().toDateString() + " " +document.getElementById('availability').children[i].children[1].children[1].children[0].children[j].children[0].children[1].value).toISOString(),
-                    end: new Date(new Date().toDateString() + " " +document.getElementById('availability').children[i].children[1].children[1].children[0].children[j].children[1].children[1].value).toISOString(),
+        setLoading(true);
+        try{
+            let availability =[];
+            for(let i =0; i<document.getElementById('availability').children.length;i++){
+                let disableSat= document.getElementById('availability').children[i].children[0].children[1].children[2].children[0].checked;
+                // let  disableSun =document.getElementById('availability').children[i].children[0].children[1].children[3].children[0].checked;
+                let distributedAvailibilities=[];
+                let hours = [];
+                for(let j=0; j<document.getElementById('availability').children[i].children[1].children[1].children[0].children.length; j++){
+                    let interval ={
+                        start: new Date(new Date().toDateString() + " " +document.getElementById('availability').children[i].children[1].children[1].children[0].children[j].children[0].children[1].value).toISOString(),
+                        end: new Date(new Date().toDateString() + " " +document.getElementById('availability').children[i].children[1].children[1].children[0].children[j].children[1].children[1].value).toISOString(),
+                    }
+                    console.log(interval);
+                    hours.push(interval);
                 }
-                console.log(interval);
-                hours.push(interval);
-            }
-            if(disableSat){
-                const newavailability = getWeekdayTimeFrames(new Date(document.getElementById('availability').children[i].children[0].children[1].children[0].children[0].value).toISOString(), 
-                new Date(document.getElementById('availability').children[i].children[0].children[1].children[0].children[1].value).toISOString(),
-                hours);
-                availability.push(...newavailability);
-            }else{
-                const newavailability ={
-                    start: new Date(document.getElementById('availability').children[i].children[0].children[1].children[0].children[0].value).toISOString(),
-                    end: new Date(document.getElementById('availability').children[i].children[0].children[1].children[0].children[1].value).toISOString(),
-                    hours:hours
+                if(disableSat){
+                    const newavailability = getWeekdayTimeFrames(new Date(document.getElementById('availability').children[i].children[0].children[1].children[0].children[0].value).toISOString(), 
+                    new Date(document.getElementById('availability').children[i].children[0].children[1].children[0].children[1].value).toISOString(),
+                    hours);
+                    availability.push(...newavailability);
+                }else{
+                    const newavailability ={
+                        start: new Date(document.getElementById('availability').children[i].children[0].children[1].children[0].children[0].value).toISOString(),
+                        end: new Date(document.getElementById('availability').children[i].children[0].children[1].children[0].children[1].value).toISOString(),
+                        hours:hours
+                    }
+                    availability.push(newavailability);
                 }
-                availability.push(newavailability);
             }
+            console.log('availability: ',availability);
+            const response = await axiosPrivate.post(`/moderator/${window.location.href.split('/')[4]}/availability`,JSON.stringify({availability: availability}),{
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                withCredentials: true
+            });
+            if(response?.data?.code ===200){
+                fetchAvailability();
+            }
+        }catch(e){
+            console.log(e);
         }
-        console.log('availability: ',availability);
-        const response = await axiosPrivate.post(`/moderator/${window.location.href.split('/')[4]}/availability`,JSON.stringify({availability: availability}),{
-            headers: {
-                "Content-Type": "application/json"
-            },
-            withCredentials: true
-        });
-        if(response?.data?.code ===200){
-            fetchAvailability();
-        }
+        setLoading(false);
     }
 
         // Download Function
@@ -457,135 +485,143 @@ const Event = (props) => {
         <div className={`flex flex-col w-full ${activeTab === 'availability'? ('bg-faint-blue h-screen'):('')}`}>
         <ModeratorNavbar page={page}/>
         {activeTab === 'conferences' &&(
+            <>
+            {loading?(<CircularProgress/>):(
             <div className='w-full flex justify-center items-center'>
                 <div className='w-10/12'>
                 <Table download={download} tableHeaders={['#','Full Name','Email ID','Date and Time','Conference Link', 'Action']} tableContent={conferences} tableName={'moderatorEventConferences'} resend={resendInvite} />
                 </div>
             </div>
+            )}
+            </>
         )}
         {activeTab === 'availability' &&(
             <div className='w-full flex justify-center items-center flex-col'>
-                {!tableOpen?(
-                    <div className='w-11/12 flex flex-col gap-4'>
-                        <div className='text-xl font-bold'>
-                            Set Availability:
-                        </div>
-                        <div id='availability' className='flex flex-wrap gap-8 p-4 w-9/12'>
-                            {/* Slot */}
-                            <div className='flex gap-8 light-shadow rounded-lg p-8 w-full bg-white'>
-                                {/* Date Availability */}
-                                <div className='text-gray gap-11 flex flex-col w-1/2'>
-                                    <div className='font-bold text-black text-lg'>Date Availability</div>
-                                    <div className='flex flex-col gap-3'>
-                                        <div className='flex gap-4'>
-                                            <input type='date' className='border-2 border-solid border-border-gray rounded p-1 w-48' min={formatDate(new Date(event.start))} max={formatDate(new Date(event.end))}/>
-                                            <input type='date' className='border-2 border-solid border-border-gray rounded p-1 w-48' min={formatDate(new Date(event.start))} max={formatDate(new Date(event.end))}/>
-                                        </div>
-                                        <br/>
-                                        <div className='text-lg'>
-                                            <input type='checkbox' className='p-1'/>&nbsp; Disable availability on Staurdays and Sundays
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* Time Availability */}
-                                <div className='text-gray gap-3 flex flex-col w-1/2'>
-                                    <div className='font-bold text-black text-lg'>Time Availability</div>
-                                    <div className='flex flex-col gap-5'>
-                                        <div className='flex flex-col gap-4'>
+                {loading?(<CircularProgress/>):(
+                    <>
+                    {!tableOpen?(
+                        <div className='w-11/12 flex flex-col gap-4'>
+                            <div className='text-xl font-bold'>
+                                Set Availability:
+                            </div>
+                            <div id='availability' className='flex flex-wrap gap-8 p-4 w-9/12'>
+                                {/* Slot */}
+                                <div className='flex gap-8 light-shadow rounded-lg p-8 w-full bg-white'>
+                                    {/* Date Availability */}
+                                    <div className='text-gray gap-11 flex flex-col w-1/2'>
+                                        <div className='font-bold text-black text-lg'>Date Availability</div>
+                                        <div className='flex flex-col gap-3'>
                                             <div className='flex gap-4'>
-                                                <div className='flex flex-col gap-2 w-48'>
-                                                    <label className='text-dark-blue font-bold'>From</label>  
-                                                    <input type='time' className='border-2 border-solid border-border-gray rounded p-1' ref={startTimeRef} onChange={handleStartTimeChange}/>
-                                                </div>
-                                                <div className='flex flex-col gap-2 w-48'>
-                                                    <label className='text-dark-blue font-bold'>To</label>  
-                                                    <input type='time' className='border-2 border-solid border-border-gray rounded p-1' ref={endTimeRef} />
-                                                </div>
+                                                <input type='date' className='border-2 border-solid border-border-gray rounded p-1 w-48' min={formatDate(new Date(event.start))} max={formatDate(new Date(event.end))}/>
+                                                <input type='date' className='border-2 border-solid border-border-gray rounded p-1 w-48' min={formatDate(new Date(event.start))} max={formatDate(new Date(event.end))}/>
+                                            </div>
+                                            <br/>
+                                            <div className='text-lg'>
+                                                <input type='checkbox' className='p-1'/>&nbsp; Disable availability on Staurdays and Sundays
                                             </div>
                                         </div>
-                                        <button onClick={addTimeIntervals} className='flex gap-3 items-center justify-center'><AddCircleOutlineIcon/> Add more time intervals</button>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='w-9/12 flex justify-center items-center text-gray'><button onClick={insertavailability} className='flex gap-2 itms-center justify-center'><AddCircleOutlineIcon/> &nbsp; Insert More Date Intervals</button></div>
-                        <div><button className='h2s-button' onClick={saveAvailability}>Save Availability</button></div>
-                    </div>
-                ):(
-                    <>
-                    <div className='hidden flex w-11/12 flex justify-end px-6'><div className='text-sm text-gray cursor-pointer flex justify-center items-center' onClick={()=>{setTableOpen(false)}}><ArrowBackIosRoundedIcon fontSize='sm'/> &nbsp; Back to Availability Form</div></div>
-                    <div className='w-11/12 px-5 text-xs text-dark-blue'>**Your Availibility for the event has been set, you can preview and update your availability from the Calendar given below.</div>
-                    <div className='w-11/12 p-5'>
-                        <FullCalendar
-                            plugins={[ dayGridPlugin, interactionPlugin ]}
-                            initialView="dayGridMonth"
-                            events={events}
-                            eventClick={handleEventClick}
-                            eventContent={eventContent}
-                        />
-                    </div>
-                    {eventOpen && (
-                        <Modal
-                        open={eventOpen}
-                        onClose={()=>{setEventOpen(false)}}
-                        className='flex justify-center items-center'>
-                            <div className='w-3/5 h-96 bg-white border-0 outline-0 rounded-lg p-8 flex'>
-                                <div className='w-1/2 flex flex-col gap-3 pr-3 text-xl font-bold'>
-                                    Change Time Availability
-                                    <div className='flex flex-col gap-4 text-base font-medium clanedarTimeIntervals'>
-                                        {timeIntervals.map((timeInterval, key)=>{
-                                            return (
-                                            <>
-                                            {timeInterval != '' &&(
-                                                <div className='flex gap-4' key={key}>
+                                    {/* Time Availability */}
+                                    <div className='text-gray gap-3 flex flex-col w-1/2'>
+                                        <div className='font-bold text-black text-lg'>Time Availability</div>
+                                        <div className='flex flex-col gap-5'>
+                                            <div className='flex flex-col gap-4'>
+                                                <div className='flex gap-4'>
                                                     <div className='flex flex-col gap-2 w-48'>
                                                         <label className='text-dark-blue font-bold'>From</label>  
-                                                        <input type='time' defaultValue={convertTo24Hour(timeInterval.split('-')[0])} className='border-2 border-solid border-border-gray rounded p-1'/>
+                                                        <input type='time' className='border-2 border-solid border-border-gray rounded p-1' ref={startTimeRef} onChange={handleStartTimeChange}/>
                                                     </div>
                                                     <div className='flex flex-col gap-2 w-48'>
                                                         <label className='text-dark-blue font-bold'>To</label>  
-                                                        <input type='time' defaultValue={convertTo24Hour(timeInterval.split('-')[1])} className='border-2 border-solid border-border-gray rounded p-1'/>
+                                                        <input type='time' className='border-2 border-solid border-border-gray rounded p-1' ref={endTimeRef} />
                                                     </div>
-                                                    {key!=0 &&(
-                                                        <div className='flex justify-center items-end py-2 cursor-pointer' >
-                                                            <DeleteIcon onClick={(e)=>{ console.log(e.currentTarget);e.currentTarget.parentNode.parentNode.parentNode.removeChild(e.currentTarget.parentNode.parentNode)}}/> 
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            )}
-                                            </>
-                                        )})}
-                                        {timeIntervals.length===1 &&(
-                                            <div className='flex gap-4'>
-                                                <div className='flex flex-col gap-2 w-48'>
-                                                    <label className='text-dark-blue font-bold'>From</label>  
-                                                    <input type='time'  className='border-2 border-solid border-border-gray rounded p-1'/>
-                                                </div>
-                                                <div className='flex flex-col gap-2 w-48'>
-                                                    <label className='text-dark-blue font-bold'>To</label>  
-                                                    <input type='time' className='border-2 border-solid border-border-gray rounded p-1'/>
                                                 </div>
                                             </div>
-                                        )}
-                                        
+                                            <button onClick={addTimeIntervals} className='flex gap-3 items-center justify-center'><AddCircleOutlineIcon/> Add more time intervals</button>
+                                        </div>
                                     </div>
-                                    <button onClick={addTimeIntervals} className='flex gap-3 items-center justify-center text-gray text-base font-medium'>
-                                        <AddCircleOutlineIcon className='mb-1' /> 
-                                        Add more time intervals
-                                         
-                                    </button>
-                                    <div className='flex gap-3 w-full justify-center items-center mt-5 text-base font-medium'>
-                                        <button className='h2s-button' onClick={setTime}>Set Time</button>
-                                        <button className='h2s-gray-button' onClick={()=>{setEventOpen(false)}}>Back</button>
-                                    </div>
-                                </div>
-                                <div className='w-1/2 flex flex-col gap-5 pl-3'>
-                                    <div className='text-xl'>Today Booked Conference</div>
-                                    <div><Table tableHeaders={['Time Interval', 'Email ID']} tableContent={conferences} tableName={'calendarBookedConferences'} activeDate={activeDate}/></div>
-                                    <div className='w-full flex justify-center items-center text-sm'>To Reschedule the conference, contact the admin</div>
                                 </div>
                             </div>
-                        </Modal>
+                            <div className='w-9/12 flex justify-center items-center text-gray'><button onClick={insertavailability} className='flex gap-2 itms-center justify-center'><AddCircleOutlineIcon/> &nbsp; Insert More Date Intervals</button></div>
+                            <div><button className='h2s-button' onClick={saveAvailability}>Save Availability</button></div>
+                        </div>
+                    ):(
+                        <>
+                        <div className='hidden flex w-11/12 flex justify-end px-6'><div className='text-sm text-gray cursor-pointer flex justify-center items-center' onClick={()=>{setTableOpen(false)}}><ArrowBackIosRoundedIcon fontSize='sm'/> &nbsp; Back to Availability Form</div></div>
+                        <div className='w-11/12 px-5 text-xs text-dark-blue'>**Your Availibility for the event has been set, you can preview and update your availability from the Calendar given below.</div>
+                        <div className='w-11/12 p-5'>
+                            <FullCalendar
+                                plugins={[ dayGridPlugin, interactionPlugin ]}
+                                initialView="dayGridMonth"
+                                events={events}
+                                eventClick={handleEventClick}
+                                eventContent={eventContent}
+                            />
+                        </div>
+                        {eventOpen && (
+                            <Modal
+                            open={eventOpen}
+                            onClose={()=>{setEventOpen(false)}}
+                            className='flex justify-center items-center'>
+                                <div className='w-3/5 h-96 bg-white border-0 outline-0 rounded-lg p-8 flex'>
+                                    <div className='w-1/2 flex flex-col gap-3 pr-3 text-xl font-bold'>
+                                        Change Time Availability
+                                        <div className='flex flex-col gap-4 text-base font-medium clanedarTimeIntervals'>
+                                            {timeIntervals.map((timeInterval, key)=>{
+                                                return (
+                                                <>
+                                                {timeInterval != '' &&(
+                                                    <div className='flex gap-4' key={key}>
+                                                        <div className='flex flex-col gap-2 w-48'>
+                                                            <label className='text-dark-blue font-bold'>From</label>  
+                                                            <input type='time' defaultValue={convertTo24Hour(timeInterval.split('-')[0])} className='border-2 border-solid border-border-gray rounded p-1'/>
+                                                        </div>
+                                                        <div className='flex flex-col gap-2 w-48'>
+                                                            <label className='text-dark-blue font-bold'>To</label>  
+                                                            <input type='time' defaultValue={convertTo24Hour(timeInterval.split('-')[1])} className='border-2 border-solid border-border-gray rounded p-1'/>
+                                                        </div>
+                                                        {key!=0 &&(
+                                                            <div className='flex justify-center items-end py-2 cursor-pointer' >
+                                                                <DeleteIcon onClick={(e)=>{ console.log(e.currentTarget);e.currentTarget.parentNode.parentNode.parentNode.removeChild(e.currentTarget.parentNode.parentNode)}}/> 
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                )}
+                                                </>
+                                            )})}
+                                            {timeIntervals.length===1 &&(
+                                                <div className='flex gap-4'>
+                                                    <div className='flex flex-col gap-2 w-48'>
+                                                        <label className='text-dark-blue font-bold'>From</label>  
+                                                        <input type='time'  className='border-2 border-solid border-border-gray rounded p-1'/>
+                                                    </div>
+                                                    <div className='flex flex-col gap-2 w-48'>
+                                                        <label className='text-dark-blue font-bold'>To</label>  
+                                                        <input type='time' className='border-2 border-solid border-border-gray rounded p-1'/>
+                                                    </div>
+                                                </div>
+                                            )}
+                                            
+                                        </div>
+                                        <button onClick={addTimeIntervals} className='flex gap-3 items-center justify-center text-gray text-base font-medium'>
+                                            <AddCircleOutlineIcon className='mb-1' /> 
+                                            Add more time intervals
+                                            
+                                        </button>
+                                        <div className='flex gap-3 w-full justify-center items-center mt-5 text-base font-medium'>
+                                            <button className='h2s-button' onClick={setTime}>Set Time</button>
+                                            <button className='h2s-gray-button' onClick={()=>{setEventOpen(false)}}>Back</button>
+                                        </div>
+                                    </div>
+                                    <div className='w-1/2 flex flex-col gap-5 pl-3'>
+                                        <div className='text-xl'>Today Booked Conference</div>
+                                        <div><Table tableHeaders={['Time Interval', 'Email ID']} tableContent={conferences} tableName={'calendarBookedConferences'} activeDate={activeDate}/></div>
+                                        <div className='w-full flex justify-center items-center text-sm'>To Reschedule the conference, contact the admin</div>
+                                    </div>
+                                </div>
+                            </Modal>
+                        )}
+                        </>
                     )}
                     </>
                 )}
