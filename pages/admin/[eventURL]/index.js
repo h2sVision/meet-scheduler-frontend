@@ -441,7 +441,7 @@ const Event = (props) => {
         <div className='w-full flex justify-center items-center'>
             {activeTab === 'conferences' &&(
                 <div className='w-11/12  px-5 flex flex-col gap-5'>
-                    <div className='text-2xl font-bold'>{event?.eventName}:&nbsp;<span></span></div>
+                    <div className='text-2xl font-bold'>{event?.eventName}:&nbsp;<span className='font-thin'>No of Conferences - {numberofConferences}</span></div>
                     {loading? (<CircularProgress/>) :(
                         <>
                         {conferences?.length===0? (
