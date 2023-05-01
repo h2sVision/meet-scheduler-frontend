@@ -532,6 +532,7 @@ const Event = (props) => {
                                 <div className='text-lg text-gray w-full text-center'> No Participants added Yet</div>
                             ):(
                                 <>
+                                <div className='text-xl px-5'>Total number of Participants - {numberofParticipants}</div>
                                 <div className='w-full x-scroll py-4 px-2'>
                                     <Table download={download} tableHeaders={['#','Full Name', 'Email ID', 'Conference Scheduled', 'Action', 'Genrate OTP']} tableContent={participants} tableName={'participantsByEventURL'} remove={deleteParticipant} genrateOTP={genrateOTP}/>
                                 </div>
