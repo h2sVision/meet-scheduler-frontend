@@ -56,11 +56,13 @@ thead .fc-scroller{
 .clanedarTimeIntervals{
     height: 200px;
     overflow-y: scroll;
+    
 }
 
 .clanedarTimeIntervals::-webkit-scrollbar{
-    width: 0 !important;
-
+    width: 7px !important;
+    background: #ddd;
+    border-radius: 10px;
 }
 .eventContainer{
     margin-top: -30px;

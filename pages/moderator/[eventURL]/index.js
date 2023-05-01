@@ -569,7 +569,11 @@ const Event = (props) => {
                                         )}
                                         
                                     </div>
-                                    <button onClick={addTimeIntervals} className='flex gap-3 items-center justify-center text-gray text-base font-medium'><AddCircleOutlineIcon/> Add more time intervals</button>
+                                    <button onClick={addTimeIntervals} className='flex gap-3 items-center justify-center text-gray text-base font-medium'>
+                                        <AddCircleOutlineIcon className='mb-1' /> 
+                                        Add more time intervals
+                                         
+                                    </button>
                                     <div className='flex gap-3 w-full justify-center items-center mt-5 text-base font-medium'>
                                         <button className='h2s-button' onClick={setTime}>Set Time</button>
                                         <button className='h2s-gray-button' onClick={()=>{setEventOpen(false)}}>Back</button>
