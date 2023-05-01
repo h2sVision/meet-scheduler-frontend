@@ -156,8 +156,8 @@ const Event = (props) => {
 
     const fetchData = async (dataType) => {
         setLoading(true);
-        await fetchEvent();
         try {
+          await fetchEvent();
           switch (dataType) {
             case 'conferences':
                 await fetchConferences(1);
@@ -289,53 +289,65 @@ const Event = (props) => {
         }
     }
     const fetchEvent = async()=>{
-        const response = await axiosPrivate.get(`/admin/${window.location.href.split('/')[4]}`,{},{
-            headers: {
-                "Content-Type": "application/json"
-            },
-            withCredentials: true
-        });
-        console.log(response);
-        setEvent(response?.data?.result);
-        setStateFormData({
-            eventName:{
-                value: response?.data?.result?.eventName
-            },
-            eventURL: {
-                value: response?.data?.result?.eventURL
-            },
-            start:{
-                value: response?.data?.result?.start
-            },
-            end:{
-                value:response?.data?.result?.end
-            },
-            duration:{
-                value:response?.data?.result?.duration
-            }
-          })
+        try{
+            const response = await axiosPrivate.get(`/admin/${window.location.href.split('/')[4]}`,{},{
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                withCredentials: true
+            });
+            console.log(response);
+            setEvent(response?.data?.result);
+            setStateFormData({
+                eventName:{
+                    value: response?.data?.result?.eventName
+                },
+                eventURL: {
+                    value: response?.data?.result?.eventURL
+                },
+                start:{
+                    value: response?.data?.result?.start
+                },
+                end:{
+                    value:response?.data?.result?.end
+                },
+                duration:{
+                    value:response?.data?.result?.duration
+                }
+              })
+        }catch(e){
+            console.log(e);
+        }
 
     };
     const fetchParticipants  = async(page)=>{
-        const response = await axiosPrivate.get(`/admin/${window.location.href.split('/')[4]}/participants/${page}`,{},{
-            headers: {
-                "Content-Type": "application/json"
-            },
-            withCredentials: true
-        });
-        // console.log(response);
-        setParticipants(response?.data?.result);
-        setNumberofParticipants(response?.data?.number);
+        try{
+            const response = await axiosPrivate.get(`/admin/${window.location.href.split('/')[4]}/participants/${page}`,{},{
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                withCredentials: true
+            });
+            // console.log(response);
+            setParticipants(response?.data?.result);
+            setNumberofParticipants(response?.data?.number);
+        }catch(e){
+            console.log(e);
+        }
     };
     const deleteParticipant = async(participantEmail) =>{
-        const response = await axiosPrivate.post(`/admin/${window.location.href.split('/')[4]}/remove-participants`,JSON.stringify({participantEmail: participantEmail}),{
-            headers: {
-                "Content-Type": "application/json"
-            },
-            withCredentials: true
-        });
-        console.log(response);
-       await fetchParticipants();
+        try{
+            const response = await axiosPrivate.post(`/admin/${window.location.href.split('/')[4]}/remove-participants`,JSON.stringify({participantEmail: participantEmail}),{
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                withCredentials: true
+            });
+            console.log(response);
+           await fetchParticipants();
+        }catch(e){
+            console.log(e);
+        }
     }
     const [file, setFile] = useState(null)
 
@@ -344,7 +356,8 @@ const Event = (props) => {
       };
 
     const addParticipants = async()=>{
-        const formData = new FormData();
+        try{
+            const formData = new FormData();
         formData.append('file', file);
         console.log(file);
         formData.append('username', 'johndoe');
@@ -354,6 +367,9 @@ const Event = (props) => {
               }
         });
         await fetchParticipants();
+        }catch(e){
+            console.log(e);
+        }
     }
 
     const genrateOTP =async(email)=>{
