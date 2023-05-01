@@ -45,6 +45,7 @@ const Event = (props) => {
     const [moderators, setModerators] = useState([]);
     const [conferences, setConferences] = useState([]);
     const [numberofConferences, setNumberofConferences] = useState(0);
+    const [numberofParticipants, setNumberofParticipants] = useState(0);
     const [participants, setParticipants] = useState([]);
     const [event, setEvent] = useState({});
     const [mounted , setMounted] = useState(false);  
@@ -98,7 +99,7 @@ const Event = (props) => {
     // axios
     const axiosPrivate = useAuthAxiosPrivate();
 
-    //Pagination
+    //Pagination - Conferences
     const [itemOffset, setItemOffset] = useState(0);
     const itemsPerPage =10;
     const endOffset = itemOffset + itemsPerPage;
@@ -124,6 +125,33 @@ const Event = (props) => {
             console.log(e);
         }
       setItemOffset(newOffset);
+    };
+    //Pagination - Participants
+    const [pitemOffset, setPItemOffset] = useState(0);
+    const PitemsPerPage =10;
+    const pendOffset = pitemOffset + PitemsPerPage;
+    const ppageCount = Math.ceil(numberofParticipants / PitemsPerPage);
+  
+    // Invoke when user click to request another page.
+    const phandlePageClick = async(event) => {
+      const pnewOffset = (event.selected * PitemsPerPage) % numberofParticipants;
+      console.log(
+        `User requested page number ${event.selected}, which is offset ${pnewOffset}`
+
+      );
+        try{
+            const response = await axiosPrivate.get(`/admin/${window.location.href.split('/')[4]}/participants/${event.selected +1}`,{},{
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                withCredentials: true
+            });
+            console.log(response);
+            setParticipants(response?.data?.result);
+        }catch(e){
+            console.log(e);
+        }
+      setPItemOffset(pnewOffset);
     };
 
     const fetchData = async (dataType) => {
@@ -299,6 +327,7 @@ const Event = (props) => {
         });
         console.log(response);
         setParticipants(response?.data?.result);
+        setNumberofParticipants(response?.data?.number);
     };
     const deleteParticipant = async(participantEmail) =>{
         const response = await axiosPrivate.post(`/admin/${window.location.href.split('/')[4]}/remove-participants`,JSON.stringify({participantEmail: participantEmail}),{
@@ -504,9 +533,22 @@ const Event = (props) => {
                             {participants.length === 0?(
                                 <div className='text-lg text-gray w-full text-center'> No Participants added Yet</div>
                             ):(
+                                <>
                                 <div className='w-full x-scroll py-4 px-2'>
                                     <Table download={download} tableHeaders={['#','Full Name', 'Email ID', 'Conference Scheduled', 'Action', 'Genrate OTP']} tableContent={participants} tableName={'participantsByEventURL'} remove={deleteParticipant} genrateOTP={genrateOTP}/>
                                 </div>
+                                <div className='flex justify-center items-center pb-5 paginationContainer'>
+                                    <ReactPaginate
+                                        breakLabel="..."
+                                        nextLabel=">"
+                                        onPageChange={phandlePageClick}
+                                        pageRangeDisplayed={5}
+                                        pageCount={ppageCount}
+                                        previousLabel="<"
+                                        renderOnZeroPageCount={null}
+                                    />
+                                </div>
+                                </>
                             )}
                             </>
                         )}
