@@ -35,6 +35,7 @@ const Availability = () => {
   const [event, setEvent] = useState();
   const [events, seteEvents]= useState([]);
   const [eventDates, setEventDates]= useState([]);
+  const [moderators, setModerators]= useState([]);
 
   // Calendar 
   const [eventOpen, setEventOpen]= useState(false);
@@ -43,7 +44,7 @@ const Availability = () => {
 
   // Conferences
   const [conferences, setConferences]= useState([]);
-
+ 
   const fetchData = async ()=>{
     try{
       const confResponse = await axiosPrivate.get(`/admin/${window.location.href.split('/')[4]}/${window.location.href.split('/')[5]}/conferences`,{},{
@@ -53,6 +54,7 @@ const Availability = () => {
           withCredentials: true
       });
       console.log(confResponse);
+
       setConferences(confResponse?.data?.result?.conferences);
       const response = await axiosPrivate.get(`/admin/${window.location.href.split('/')[4]}/${window.location.href.split('/')[5]}/availability`,{},{
           headers: {
@@ -60,10 +62,13 @@ const Availability = () => {
           },
           withCredentials: true
       });
-
+      
       setAvailability(response?.data?.result?.availability);
       setCustomHours(response?.data?.result?.customHours);
       setEvent(response?.data?.result?.event);
+      setModerators(response?.data?.result?.modName);
+      // console.log("varsha responseeee:" , response?.data?.result?.modName);
+
 
        // Calendar Events creation
        let Tempevents =[];
@@ -223,6 +228,7 @@ const Availability = () => {
         );
       }
   };
+  
   function handleEventClick(info) {
     // Do something with the clicked event, such as open a dialog box
     console.log("Clicked event: ", info.event.start);
@@ -239,7 +245,7 @@ const Availability = () => {
       }
   },[mounted]);
   useEffect(()=>{setMounted(true)},[]);
-
+ 
   return (
     <>
     <Head>
@@ -248,6 +254,7 @@ const Availability = () => {
     <LoggedinLayout leftSidebarOpen={leftSidebarOpen} setLeftSidebarOpen={setLeftSidebarOpen} fetchData={fetchData}>
       <div className='w-full flex flex-col py-3 justify-center items-center'>
         <div className='w-11/12 flex justify-start'><div><Link href={`/admin/${event?.eventURL}`}>Back</Link></div></div>
+        <div className='flex text-center justify-center items-center'><h3 className='font-bold text-2xl'>  {moderators ? "Moderator Name : " + moderators : " " } </h3></div>
         {availability?.length?(
           <div className='w-11/12 p-5'>
             <FullCalendar

@@ -29,7 +29,8 @@
   );
 }
 @import '../public/fonts/google-sans-cufonfonts-webfont/style.css';
-
+/* Pagination */
+@import './common/components/pagination/pagination.css';
 /* Date Picker */
 @import './common/components/event/datePicker.css';
 /* Dropper */
