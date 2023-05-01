@@ -255,6 +255,7 @@ const Event = (props) => {
         setEventOpen(true);
       }
       const resendInvite = async(email, moderatorEmail)=>{
+       try{
         const response = await axiosPrivate.post(`/moderator/${window.location.href.split('/')[4]}/resend-invite`,JSON.stringify({email: email}),{
             headers: {
                 "Content-Type": "application/json"
@@ -262,6 +263,9 @@ const Event = (props) => {
             withCredentials: true
         });
         console.log(response);
+       }catch(e){
+        console.log(e);
+       }
     }
     const addTimeIntervals =(e)=>{
         const item = document.createElement('div');
@@ -379,44 +383,50 @@ const Event = (props) => {
       }
 
     const saveAvailability =async() =>{
-        let availability =[];
-        for(let i =0; i<document.getElementById('availability').children.length;i++){
-            let disableSat= document.getElementById('availability').children[i].children[0].children[1].children[2].children[0].checked;
-            // let  disableSun =document.getElementById('availability').children[i].children[0].children[1].children[3].children[0].checked;
-            let distributedAvailibilities=[];
-            let hours = [];
-            for(let j=0; j<document.getElementById('availability').children[i].children[1].children[1].children[0].children.length; j++){
-                let interval ={
-                    start: new Date(new Date().toDateString() + " " +document.getElementById('availability').children[i].children[1].children[1].children[0].children[j].children[0].children[1].value).toISOString(),
-                    end: new Date(new Date().toDateString() + " " +document.getElementById('availability').children[i].children[1].children[1].children[0].children[j].children[1].children[1].value).toISOString(),
+        setLoading(true);
+        try{
+            let availability =[];
+            for(let i =0; i<document.getElementById('availability').children.length;i++){
+                let disableSat= document.getElementById('availability').children[i].children[0].children[1].children[2].children[0].checked;
+                // let  disableSun =document.getElementById('availability').children[i].children[0].children[1].children[3].children[0].checked;
+                let distributedAvailibilities=[];
+                let hours = [];
+                for(let j=0; j<document.getElementById('availability').children[i].children[1].children[1].children[0].children.length; j++){
+                    let interval ={
+                        start: new Date(new Date().toDateString() + " " +document.getElementById('availability').children[i].children[1].children[1].children[0].children[j].children[0].children[1].value).toISOString(),
+                        end: new Date(new Date().toDateString() + " " +document.getElementById('availability').children[i].children[1].children[1].children[0].children[j].children[1].children[1].value).toISOString(),
+                    }
+                    console.log(interval);
+                    hours.push(interval);
                 }
-                console.log(interval);
-                hours.push(interval);
-            }
-            if(disableSat){
-                const newavailability = getWeekdayTimeFrames(new Date(document.getElementById('availability').children[i].children[0].children[1].children[0].children[0].value).toISOString(), 
-                new Date(document.getElementById('availability').children[i].children[0].children[1].children[0].children[1].value).toISOString(),
-                hours);
-                availability.push(...newavailability);
-            }else{
-                const newavailability ={
-                    start: new Date(document.getElementById('availability').children[i].children[0].children[1].children[0].children[0].value).toISOString(),
-                    end: new Date(document.getElementById('availability').children[i].children[0].children[1].children[0].children[1].value).toISOString(),
-                    hours:hours
+                if(disableSat){
+                    const newavailability = getWeekdayTimeFrames(new Date(document.getElementById('availability').children[i].children[0].children[1].children[0].children[0].value).toISOString(), 
+                    new Date(document.getElementById('availability').children[i].children[0].children[1].children[0].children[1].value).toISOString(),
+                    hours);
+                    availability.push(...newavailability);
+                }else{
+                    const newavailability ={
+                        start: new Date(document.getElementById('availability').children[i].children[0].children[1].children[0].children[0].value).toISOString(),
+                        end: new Date(document.getElementById('availability').children[i].children[0].children[1].children[0].children[1].value).toISOString(),
+                        hours:hours
+                    }
+                    availability.push(newavailability);
                 }
-                availability.push(newavailability);
             }
+            console.log('availability: ',availability);
+            const response = await axiosPrivate.post(`/moderator/${window.location.href.split('/')[4]}/availability`,JSON.stringify({availability: availability}),{
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                withCredentials: true
+            });
+            if(response?.data?.code ===200){
+                fetchAvailability();
+            }
+        }catch(e){
+            console.log(e);
         }
-        console.log('availability: ',availability);
-        const response = await axiosPrivate.post(`/moderator/${window.location.href.split('/')[4]}/availability`,JSON.stringify({availability: availability}),{
-            headers: {
-                "Content-Type": "application/json"
-            },
-            withCredentials: true
-        });
-        if(response?.data?.code ===200){
-            fetchAvailability();
-        }
+        setLoading(false);
     }
 
         // Download Function
