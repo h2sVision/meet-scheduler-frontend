@@ -332,7 +332,7 @@ const Event = (props) => {
                     steps={steps}
                     // initialStep={initialStep}
                     onExit={onExit}
-                    /> */}
+                    />*/}
                     <div className='flex flex-col w-full p-2 mb-3'>
                         <div style={{ backgroundColor: '#fef3c7', padding: '10px 10px 6px 10px', borderRadius: '8px' }}>
                             <marquee behavior="scroll" direction="left">
