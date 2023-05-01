@@ -325,7 +325,7 @@ const Event = (props) => {
             },
             withCredentials: true
         });
-        console.log(response);
+        // console.log(response);
         setParticipants(response?.data?.result);
         setNumberofParticipants(response?.data?.number);
     };
