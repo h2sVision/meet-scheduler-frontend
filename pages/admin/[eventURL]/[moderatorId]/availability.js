@@ -53,6 +53,7 @@ const Availability = () => {
           withCredentials: true
       });
       console.log(confResponse);
+      console.log("varsha"+ confResponse);
       setConferences(confResponse?.data?.result?.conferences);
       const response = await axiosPrivate.get(`/admin/${window.location.href.split('/')[4]}/${window.location.href.split('/')[5]}/availability`,{},{
           headers: {
