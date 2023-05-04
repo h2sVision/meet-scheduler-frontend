@@ -252,9 +252,14 @@ const Event = (props) => {
         setRescheduleModalOpen(true);
     }
     const [switchModModalOpen,setSwitchModModalOpen] = useState(false);
-    const OpenSwitchModModal =(conf)=>{
-        setCurrentConference(conf);
-        setSwitchModModalOpen(true);
+    const OpenSwitchModModal =async (conf)=>{
+        try{
+            await fetchModerators();
+            setCurrentConference(conf);
+            setSwitchModModalOpen(true);
+        }catch(e){
+            console.log(e);
+        }
     }
     const rescheduleConference = async()=>{
         setLoading(true)
@@ -386,6 +391,7 @@ const Event = (props) => {
         }
     }
     const switchMod = async()=>{
+        setLoading(true);
         try{
             const response = await axiosPrivate.post(`/admin/${window.location.href.split('/')[4]}/switch-moderator`,{email: currentConference?.email, moderatorEmail: currentConference?.moderatorEmail, newModerator: document.getElementById('newMod').value});
             console.log(response);
@@ -397,6 +403,7 @@ const Event = (props) => {
         }catch(e){
             console.log(e);
         }
+        setLoading(false);
     }
 
     // Download Function
