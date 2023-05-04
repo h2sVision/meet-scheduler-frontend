@@ -445,6 +445,17 @@ const Event = (props) => {
             document.body.removeChild(temp_link);
 
     }
+
+    const searchInConferences =async(query, page)=>{
+        try{
+            const response = await axiosPrivate.post(`/admin/${window.location.href.split('/')[4]}/search-conferences`,{query: query, page:page});
+            console.log(response);
+            setConferences(response?.data?.result);
+       }catch(e){
+        console.log(e);
+       }
+    }
+
     // Fetching Data intially
     useEffect(() => {
         if (mounted && accessToken) {
@@ -477,7 +488,7 @@ const Event = (props) => {
                         ):(
                             <>
                             <div className='w-full x-scroll py-4 px-2'>
-                                <Table download={download} tableHeaders={['#','Full Name', 'Email ID', 'Date & Time', 'Moderator Email', 'Action', 'Action', 'Switch Moderator']} tableContent={conferences} tableName={'conferencesbyEventURL'} resend={resendInvite} resechdule={OpenrescheduleModal} switchMod={OpenSwitchModModal}/>
+                                <Table download={download} tableHeaders={['#','Full Name', 'Email ID', 'Date & Time', 'Moderator Email', 'Action', 'Action', 'Switch Moderator']} tableContent={conferences} tableName={'conferencesbyEventURL'} resend={resendInvite} resechdule={OpenrescheduleModal} switchMod={OpenSwitchModModal} search={searchInConferences}/>
                             </div>
                             </>
                         )}

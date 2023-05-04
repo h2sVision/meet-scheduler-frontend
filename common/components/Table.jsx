@@ -1,11 +1,15 @@
 import React from 'react'
 import { useRouter } from 'next/router'
+import { Search } from '@mui/icons-material';
 
-const Table = ({tableHeaders, tableContent,tableName, remove, resend, resechdule, activeDate,genrateOTP, switchMod, eventName, download}) => {
+const Table = ({tableHeaders, tableContent,tableName, remove, resend, resechdule, activeDate,genrateOTP, switchMod, eventName, download, search}) => {
     const router = useRouter();
   return (
     <>
-    <div className='w-full flex justify-end items-center pb-4'><div className='h2s-button' onClick={download}>Download</div></div>
+    <div className='w-full flex justify-between items-center pb-4'>
+        <div className='flex gap-3'><input id='searchValue' className='border-2 border-solid border-gray px-2 rounded'/><button className='h2s-button' onClick={()=>search(document.getElementById('searchValue').value, 1)}>Search</button></div>
+        <div className='h2s-button' onClick={download}>Download</div>
+    </div>
     <table className='light-shadow rounded-xl w-full'>
         <thead className='bg-google-blue text-white rounded-t-xl'>
             <tr>
