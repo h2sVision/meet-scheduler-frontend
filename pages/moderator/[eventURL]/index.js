@@ -255,6 +255,7 @@ const Event = (props) => {
         setEventOpen(true);
       }
       const resendInvite = async(email, moderatorEmail)=>{
+        setLoading(true);
        try{
         const response = await axiosPrivate.post(`/moderator/${window.location.href.split('/')[4]}/resend-invite`,JSON.stringify({email: email}),{
             headers: {
@@ -266,6 +267,7 @@ const Event = (props) => {
        }catch(e){
         console.log(e);
        }
+       setLoading(false);
     }
     const addTimeIntervals =(e)=>{
         const item = document.createElement('div');
