@@ -27,7 +27,7 @@ const Table = ({tableHeaders, tableContent,tableName, remove, resend, resechdule
                         <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'>{key+1}</td>
                         <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'>{row.fullName}</td>
                         <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'>{row.email}</td>
-                        <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'>{new Date(row.start).toString()}</td>
+                        <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'>{new Date(row.start).toLocaleDateString()} {new Date(row.start).toLocaleTimeString()}</td>
                         <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'>{row.moderatorEmail}</td>
                         <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'><button className='h2s-button bg-blue' onClick={()=>resend(row.email, row.moderatorEmail)}>Resend</button></td>
                         <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'><button className='h2s-button bg-blue' onClick={()=>{resechdule(row)}}>Remove</button></td>
