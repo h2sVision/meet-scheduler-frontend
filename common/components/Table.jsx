@@ -8,7 +8,9 @@ const Table = ({tableHeaders, tableContent,tableName, remove, resend, resechdule
     <>
     <div className='w-full flex justify-between items-center pb-4'>
         <div className='flex gap-3'>
-            {tableName === 'conferencesbyEventURL' &&(<><input id='searchValue' className='border-2 border-solid border-gray px-2 rounded'/><button className='h2s-button' onClick={()=>search(document.getElementById('searchValue').value, 1)}>Search</button></>)}</div>
+            {tableName === 'conferencesbyEventURL' &&(<><input id='searchValue' className='border-2 border-solid border-gray px-2 rounded'/><button className='h2s-button' onClick={()=>search(document.getElementById('searchValue').value, 1)}>Search</button></>)}
+            {tableName === 'participantsByEventURL' &&(<><input id='searchValue' className='border-2 border-solid border-gray px-2 rounded'/><button className='h2s-button' onClick={()=>search(document.getElementById('searchValue').value, 1)}>Search</button></>)}
+        </div>
         <div className='h2s-button' onClick={download}>Download</div>
     </div>
     <table className='light-shadow rounded-xl w-full'>

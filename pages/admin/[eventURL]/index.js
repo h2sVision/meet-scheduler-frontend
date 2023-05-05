@@ -127,7 +127,7 @@ const Event = (props) => {
     const [pitemOffset, setPItemOffset] = useState(0);
     const PitemsPerPage =10;
     const pendOffset = pitemOffset + PitemsPerPage;
-    const ppageCount = Math.ceil(numberofParticipants / PitemsPerPage);
+    const [ppageCount, setPPageCount] = useState(1);
   
     // Invoke when user click to request another page.
     const phandlePageClick = async(event) => {
@@ -352,6 +352,7 @@ const Event = (props) => {
             // console.log(response);
             setParticipants(response?.data?.result);
             setNumberofParticipants(response?.data?.number);
+            setPPageCount(Math.ceil(numberofParticipants / 10));
         }catch(e){
             console.log(e);
         }
@@ -465,6 +466,18 @@ const Event = (props) => {
             console.log(response);
             setConferences(response?.data?.result);
             setPageCount(1);
+       }catch(e){
+        console.log(e);
+       }
+       setLoading(false);
+    }
+    const searchInParticipants =async(query)=>{
+        setLoading(true);
+        try{
+            const response = await axiosPrivate.post(`/admin/${window.location.href.split('/')[4]}/search-conferences`,{query: query});
+            console.log(response);
+            setParticipants(response?.data?.result);
+            setPPageCount(1);
        }catch(e){
         console.log(e);
        }
@@ -587,7 +600,7 @@ const Event = (props) => {
                                 <>
                                 <div className='text-xl px-5'>Total number of Participants - {numberofParticipants}</div>
                                 <div className='w-full x-scroll py-4 px-2'>
-                                    <Table download={download} tableHeaders={['#','Full Name', 'Email ID', 'Conference Scheduled', 'Action', 'Genrate OTP']} tableContent={participants} tableName={'participantsByEventURL'} remove={deleteParticipant} genrateOTP={genrateOTP}/>
+                                    <Table search={searchInParticipants} download={download} tableHeaders={['#','Full Name', 'Email ID', 'Conference Scheduled', 'Action', 'Genrate OTP']} tableContent={participants} tableName={'participantsByEventURL'} remove={deleteParticipant} genrateOTP={genrateOTP}/>
                                 </div>
                                 </>
                             )}
