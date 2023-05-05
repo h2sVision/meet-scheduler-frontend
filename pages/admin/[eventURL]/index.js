@@ -242,6 +242,21 @@ const Event = (props) => {
         }
         setLoading(false);
     };
+    const removeConference = async(row)=>{
+        setLoading(true);
+        try{
+            const response = await axiosPrivate.post(`/admin/${window.location.href.split('/')[4]}/remove-conference`,JSON.stringify({email: row?.email, moderatorEmail: row?.moderatorEmail}),{
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                withCredentials: true
+            });
+            await fetchConferences(1);
+        }catch(e){
+            console.log(e)
+        }
+        setLoading(false);
+    }
     const [rescheduleModalOpen,setRescheduleModalOpen] = useState(false);
     const [currentConference, setCurrentConference] = useState({});
     const OpenrescheduleModal =(conf)=>{
@@ -488,7 +503,7 @@ const Event = (props) => {
                         ):( */}
                             <>
                             <div className='w-full x-scroll py-4 px-2'>
-                                <Table download={download} tableHeaders={['#','Full Name', 'Email ID', 'Date & Time', 'Moderator Email', 'Action', 'Action', 'Switch Moderator']} tableContent={conferences} tableName={'conferencesbyEventURL'} resend={resendInvite} resechdule={OpenrescheduleModal} switchMod={OpenSwitchModModal} search={searchInConferences}/>
+                                <Table download={download} tableHeaders={['#','Full Name', 'Email ID', 'Date & Time', 'Moderator Email', 'Action', 'Action', 'Switch Moderator']} tableContent={conferences} tableName={'conferencesbyEventURL'} resend={resendInvite} remove={removeConference} switchMod={OpenSwitchModModal} search={searchInConferences}/>
                             </div>
                             </>
                         {/* )} */}

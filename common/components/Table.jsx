@@ -30,7 +30,7 @@ const Table = ({tableHeaders, tableContent,tableName, remove, resend, resechdule
                         <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'>{new Date(row.start).toLocaleDateString()} {new Date(row.start).toLocaleTimeString()}</td>
                         <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'>{row.moderatorEmail}</td>
                         <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'><button className='h2s-button bg-blue' onClick={()=>resend(row.email, row.moderatorEmail)}>Resend</button></td>
-                        <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'><button className='h2s-button bg-blue' onClick={()=>{resechdule(row)}}>Remove</button></td>
+                        <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'><button className='h2s-button bg-blue' onClick={()=>{remove(row)}}>Remove</button></td>
                         <td  className='text-xs md:text-base whiteSpaceNoWrap p-2 md:p-4 font-thin'><button className='h2s-button bg-blue' onClick={()=>{switchMod(row)}}>Switch</button></td>
                     </tr>
                 ))}
