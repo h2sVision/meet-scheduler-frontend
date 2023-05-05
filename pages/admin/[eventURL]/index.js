@@ -103,16 +103,11 @@ const Event = (props) => {
     const [itemOffset, setItemOffset] = useState(0);
     const itemsPerPage =10;
     const endOffset = itemOffset + itemsPerPage;
-    const pageCount = Math.ceil(numberofConferences / itemsPerPage);
-  
+    const [pageCount,setPageCount] = useState(Math.ceil(numberofConferences / itemsPerPage));
     // Invoke when user click to request another page.
     const handlePageClick = async(event) => {
         setLoading(true);
       const newOffset = (event.selected * itemsPerPage) % numberofConferences;
-      console.log(
-        `User requested page number ${event.selected}, which is offset ${newOffset}`
-
-      );
         try{
             const response = await axiosPrivate.get(`/admin/${window.location.href.split('/')[4]}/conferences/${event.selected +1}`,{},{
                 headers: {
@@ -240,6 +235,8 @@ const Event = (props) => {
             console.log(response);
             setConferences(response?.data?.result);
             setNumberofConferences(response?.data?.number);
+            setPageCount(Math.ceil(response?.data?.number/ itemsPerPage));
+            
         }catch(e){
             console.log(e);
         }
@@ -447,13 +444,16 @@ const Event = (props) => {
     }
 
     const searchInConferences =async(query, page)=>{
+        setLoading(true);
         try{
-            const response = await axiosPrivate.post(`/admin/${window.location.href.split('/')[4]}/search-conferences`,{query: query, page:page});
+            const response = await axiosPrivate.post(`/admin/${window.location.href.split('/')[4]}/search-conferences`,{query: query});
             console.log(response);
             setConferences(response?.data?.result);
+            setPageCount(1);
        }catch(e){
         console.log(e);
        }
+       setLoading(false);
     }
 
     // Fetching Data intially
@@ -482,16 +482,16 @@ const Event = (props) => {
                     <div className='text-2xl font-bold'>{event?.eventName}:&nbsp;<span className='font-thin'>No of Conferences - {numberofConferences}</span></div>
                     {loading? (<CircularProgress/>) :(
                         <>
-                        {conferences?.length===0? (
+                        {/* {conferences?.length===0? (
                             
                             <div className='text-lg text-gray w-full text-center'> No Conferences Scheduled Yet</div>
-                        ):(
+                        ):( */}
                             <>
                             <div className='w-full x-scroll py-4 px-2'>
                                 <Table download={download} tableHeaders={['#','Full Name', 'Email ID', 'Date & Time', 'Moderator Email', 'Action', 'Action', 'Switch Moderator']} tableContent={conferences} tableName={'conferencesbyEventURL'} resend={resendInvite} resechdule={OpenrescheduleModal} switchMod={OpenSwitchModModal} search={searchInConferences}/>
                             </div>
                             </>
-                        )}
+                        {/* )} */}
                         </>
                     )}
                     <div className='flex justify-center items-center pb-5 paginationContainer'>
