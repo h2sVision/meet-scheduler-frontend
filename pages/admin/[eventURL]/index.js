@@ -594,16 +594,16 @@ const Event = (props) => {
                         <div>
                         {loading? (<CircularProgress/>) :(
                             <>
-                            {participants.length === 0?(
+                            {/* {participants.length === 0?(
                                 <div className='text-lg text-gray w-full text-center'> No Participants added Yet</div>
-                            ):(
+                            ):( */}
                                 <>
                                 <div className='text-xl px-5'>Total number of Participants - {numberofParticipants}</div>
                                 <div className='w-full x-scroll py-4 px-2'>
                                     <Table search={searchInParticipants} download={download} tableHeaders={['#','Full Name', 'Email ID', 'Conference Scheduled', 'Action', 'Genrate OTP']} tableContent={participants} tableName={'participantsByEventURL'} remove={deleteParticipant} genrateOTP={genrateOTP}/>
                                 </div>
                                 </>
-                            )}
+                            {/* )} */}
                             </>
                         )}
                         <div className='flex justify-center items-center pb-5 paginationContainer'>
