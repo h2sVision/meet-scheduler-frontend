@@ -93,7 +93,7 @@ const Event = (props) => {
                 newDateDiv.style.display='none';
                 newDateDiv.id = `${i.toDateString()}`;
                 newDateDiv.classList.add('dateSlotsContainer');
-                newDateDiv.innerHTML=`<div class='flex justify-center items-center text-center'>No Slots Avaiable on this Day.</div>`
+                newDateDiv.innerHTML=`<div class='flex justify-center items-center text-center'>No Slots Available on this Day.</div>`
                 document.getElementById('slots')?.append(newDateDiv);
             }
             if(moderators){
