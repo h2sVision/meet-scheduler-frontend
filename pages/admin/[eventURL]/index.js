@@ -420,10 +420,10 @@ const Event = (props) => {
     }
 
     // Download Function
-    const download = async(e)=>{
+    const download = async(date)=>{
         setLoading(true)
         try{
-            const response = await axiosPrivate.post(`/admin/${window.location.href.split('/')[4]}/conferences/download`,{},{
+            const response = await axiosPrivate.post(`/admin/${window.location.href.split('/')[4]}/conferences/download/${date}`,{},{
                 headers: {
                     "Content-Type": "application/json"
                 },
