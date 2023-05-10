@@ -421,20 +421,34 @@ const Event = (props) => {
 
     // Download Function
     const download = async(e)=>{
-        const response = await axiosPrivate.post(`/admin/${window.location.href.split('/')[4]}/conferences/download`);
-        console.log(response);
-        let csvData = response?.data;
-        const contentType = response.headers.get('content-type');
-        const blob = new Blob([csvData], { type: contentType });
-      
-        const url = URL.createObjectURL(blob);
-      
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'data.csv';
-        link.click();
-      
-        URL.revokeObjectURL(url);
+        setLoading(true)
+        try{
+            const response = await axiosPrivate.post(`/admin/${window.location.href.split('/')[4]}/conferences/download`,{},{
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                withCredentials: true
+            });
+            console.log(response);
+            let csvData = response?.data;
+            const contentType = response.headers.get('content-type');
+            const blob = new Blob([csvData], { type: contentType });
+          
+            const url = URL.createObjectURL(blob);
+          
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'data.csv';
+            link.click();
+          
+            URL.revokeObjectURL(url);
+            if(response){
+                setLoading(false);
+            }
+        }catch(e){
+            console.log(e);
+        }
+        
     }
 
     const searchInConferences =async(query, page)=>{
