@@ -126,7 +126,9 @@ hr{
     width: 130px;
   }
 }
-
+.x-scroll{
+  overflow-x: scroll;
+}
 @media(max-width:768px){
   .secondNav{
     width: 90vw;
