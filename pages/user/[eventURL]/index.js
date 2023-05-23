@@ -337,7 +337,7 @@ const Event = (props) => {
                         <div style={{ backgroundColor: '#fef3c7', padding: '10px 10px 6px 10px', borderRadius: '8px' }}>
                             <marquee behavior="scroll" direction="left">
                                 <span style={{ color: '#f59e0b' }}>
-                                    More slots will be opening soon. The slots will be available till 25<sup>th</sup> of May 2023.
+                                    More slots will be opening soon. The slots will be available till 27<sup>th</sup> of May 2023.
                                 </span>
                             </marquee>
                         </div>
