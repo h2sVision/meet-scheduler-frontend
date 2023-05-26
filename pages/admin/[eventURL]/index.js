@@ -450,7 +450,54 @@ const Event = (props) => {
         }
         
     }
-
+    function downloadTableAsCSV() {
+        // Get the table element
+        const table = document.getElementsByTagName('table')[0];
+        
+        // Create an empty array to store the CSV rows
+        const rows = [];
+        
+        // Iterate over the table rows
+        for (const row of table.rows) {
+          // Create an empty array to store the row cells
+          const rowData = [];
+          
+          // Iterate over the row cells
+          for (const cell of row.cells) {
+            // Add the cell content to the row data array
+            rowData.push(cell.innerText);
+          }
+          
+          // Join the row data array into a CSV row and add it to the rows array
+          rows.push(rowData.join(','));
+        }
+        
+        // Join the rows array into a CSV content string
+        const csvContent = rows.join('\n');
+        
+        // Create a Blob object with the CSV content
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        
+        // Create a temporary URL for the Blob object
+        const url = URL.createObjectURL(blob);
+        
+        // Create a link element
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'data';
+        
+        // Append the link element to the document body
+        document.body.appendChild(link);
+        
+        // Programmatically click the link to trigger the download
+        link.click();
+        
+        // Remove the link element from the document body
+        document.body.removeChild(link);
+        
+        // Release the temporary URL
+        URL.revokeObjectURL(url);
+      }
     const searchInConferences =async(query, page)=>{
         setLoading(true);
         try{
@@ -592,7 +639,7 @@ const Event = (props) => {
                                 <>
                                 <div className='text-xl px-5'>Total number of Participants - {numberofParticipants}</div>
                                 <div className='w-full x-scroll py-4 px-2'>
-                                    <Table search={searchInParticipants} download={download} tableHeaders={['#','Full Name', 'Email ID', 'Conference Scheduled', 'Action', 'Genrate OTP']} tableContent={participants} tableName={'participantsByEventURL'} remove={deleteParticipant} genrateOTP={genrateOTP}/>
+                                    <Table search={searchInParticipants} download={downloadTableAsCSV} tableHeaders={['#','Full Name', 'Email ID', 'Conference Scheduled', 'Action', 'Genrate OTP']} tableContent={participants} tableName={'participantsByEventURL'} remove={deleteParticipant} genrateOTP={genrateOTP}/>
                                 </div>
                                 </>
                             {/* )} */}
