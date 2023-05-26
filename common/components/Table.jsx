@@ -12,7 +12,8 @@ const Table = ({tableHeaders, tableContent,tableName, remove, resend, resechdule
             {tableName === 'conferencesbyEventURL' &&(<><input id='searchValue' className='border-2 border-solid border-gray px-2 rounded'/><button className='h2s-button' onClick={()=>search(document.getElementById('searchValue').value, 1)}>Search</button></>)}
             {tableName === 'participantsByEventURL' &&(<><input id='searchValue' className='border-2 border-solid border-gray px-2 rounded'/><button className='h2s-button' onClick={()=>search(document.getElementById('searchValue').value, 1)}>Search</button></>)}
         </div>
-        {tableName === 'conferencesbyEventURL' &&(<div className='flex gap-2 '><div><input id='filterDate' onChange={(e)=>{setSelectDate(e.target.value)}} className="border-2 border-solid border-black rounded px-2" type='date'/></div>{selectDate!='' ?(<div className='h2s-button' onClick={()=>{download(new Date(document.getElementById('filterDate').value))}}>Download</div>):(<div className='h2s-button disabled' disabled>Download</div>)}</div>)}
+        {/* {tableName === 'conferencesbyEventURL' &&(<div className='flex gap-2 '><div><input id='filterDate' onChange={(e)=>{setSelectDate(e.target.value)}} className="border-2 border-solid border-black rounded px-2" type='date'/></div>{selectDate!='' ?(<div className='h2s-button' onClick={()=>{download(new Date(document.getElementById('filterDate').value))}}>Download</div>):(<div className='h2s-button disabled' disabled>Download</div>)}</div>)} */}
+        {tableName === 'conferencesbyEventURL' &&(<div onClick={download}> Download</div>)}
     </div>
     <table className='light-shadow rounded-xl w-full'>
         <thead className='bg-google-blue text-white rounded-t-xl'>

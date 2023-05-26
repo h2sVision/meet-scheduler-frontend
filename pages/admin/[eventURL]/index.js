@@ -555,7 +555,7 @@ const Event = (props) => {
                         ):( */}
                             <>
                             <div className='x-scroll py-4 px-2'>
-                                <Table download={download} tableHeaders={['#','Full Name', 'Email ID', 'Date & Time', 'Moderator Email','Link', 'Action', 'Action', 'Switch Moderator']} tableContent={conferences} tableName={'conferencesbyEventURL'} resend={resendInvite} remove={removeConference} switchMod={OpenSwitchModModal} search={searchInConferences}/>
+                                <Table download={downloadTableAsCSV} tableHeaders={['#','Full Name', 'Email ID', 'Date & Time', 'Moderator Email','Link', 'Action', 'Action', 'Switch Moderator']} tableContent={conferences} tableName={'conferencesbyEventURL'} resend={resendInvite} remove={removeConference} switchMod={OpenSwitchModModal} search={searchInConferences}/>
                             </div>
                             </>
                         {/* )} */}
