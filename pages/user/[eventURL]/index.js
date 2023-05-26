@@ -337,7 +337,7 @@ const Event = (props) => {
                         <div style={{ backgroundColor: '#fef3c7', padding: '10px 10px 6px 10px', borderRadius: '8px' }}>
                             <marquee behavior="scroll" direction="left">
                                 <span style={{ color: '#f59e0b' }}>
-                                    Last date for interview is 27th May 2023. No interview will be scheduled after it.
+                                    Last date for interview is 28th May 2023. No interview will be scheduled after it.
                                 </span>
                             </marquee>
                         </div>
