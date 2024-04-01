@@ -95,7 +95,7 @@ hr{
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: calc( 100vh - 55px);
+  /* height: calc( 100vh - 55px); */
 }
 /* @media(max-width:1023.5px){
   .colMd{

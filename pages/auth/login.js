@@ -152,6 +152,7 @@ export default function Login() {
             setOtp(true);
           }
         }catch(error){
+          console.log("error => ", error);
           if(error?.response?.data?.code== 404){
             setErrorStatus(true);
             setErrorMessage("User not Registered");  
@@ -174,7 +175,7 @@ export default function Login() {
             console.log( 'yanha aaraha h kya?: ', response);
             if(response.data.message === "OTP matched, user logged in"){
                 dispatch(setAccessToken(response?.data?.result?.authToken));
-                dispatch(setEmail('prachi@hack2skill.com'));
+                // dispatch(setEmail('prachi@hack2skill.com'));
                 dispatch(setRole(response?.data?.result?.role));
 
                 if(response?.data?.result?.role === 'superAdmin'){

@@ -382,7 +382,7 @@ const Event = (props) => {
             const formData = new FormData();
         formData.append('file', file);
         console.log(file);
-        formData.append('username', 'johndoe');
+        // formData.append('username', 'johndoe');
         const response = await axiosPrivate.post(`/admin/${window.location.href.split('/')[4]}/add-participants`,formData,{
             headers: {
                 'Content-Type': 'multipart/form-data'
