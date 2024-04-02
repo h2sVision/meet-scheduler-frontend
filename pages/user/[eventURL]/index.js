@@ -15,6 +15,8 @@ const Dashboard = (props) => {
     const [mounted , setMounted] = useState(false);  
     const accessToken = useSelector((state)=>state.user.accessToken);
     const [loading, setLoading] = useState(false);
+    const [uploadStatus, setUploadStatus] = useState('');
+    const [uploadedImageLink, setUploadedImageLink] = useState('');
     // axios
     const axiosPrivate = useAuthAxiosPrivate();
 
@@ -54,17 +56,48 @@ const Dashboard = (props) => {
       
       const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await  axiosPrivate.post(`/user/${window.location.href.split('/')[4]}/updateUserEventInfo`,{userData});
-        
+        const response = await axiosPrivate.post(`/user/${window.location.href.split('/')[4]}/updateUserEventInfo`, {userData, idCardImageURL: uploadedImageLink});
+    
         var serverResponse = response?.data?.message;
         // Handle form submission, if needed
         console.log("Form submitted:", userData);
-
-        if(serverResponse === "User Updated"){
-          router.push(`/user/${window.location.href.split('/')[4]}/slot-booking`)
+    
+        if (serverResponse === "User Updated") {
+            router.push(`/user/${window.location.href.split('/')[4]}/slot-booking`)
         }
-
       };
+
+      const handleImageUpload = async (event) => {
+        const file = event.target.files[0];
+        
+        // Create a FormData object to send the file to the backend
+        const formData = new FormData();
+        formData.append('image', file);
+        
+        try {
+            // Send a POST request to your backend server to upload the image using axios
+            const response = await axiosPrivate.post('/user/uploadImage', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            
+            // Handle the response
+            if (response.status === 200) {
+                console.log('Image uploaded successfully');
+                const idCardImageURL = response.data.result;
+                setUploadedImageLink(idCardImageURL);
+                setUploadStatus('Image uploaded successfully');
+            } else {
+                console.error('Failed to upload image');
+                setUploadStatus('Failed to upload image');
+            }
+        } catch (error) {
+            console.error('Error uploading image:', error);
+            setUploadStatus('Error uploading image');
+        }
+    };
+    
   return (
     <>
     <Head>
@@ -169,6 +202,30 @@ const Dashboard = (props) => {
                 onChange={handleInputChange}
                 disabled
                 className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+                </div>
+            </div>
+            <div class="sm:col-span-12">
+                <label for="imageUpload" class="block text-sm font-bold leading-6 text-gray-900">Upload Your ID Card</label>
+                <div class="mt-2">
+                    <input 
+                        type="file"
+                        id="imageUpload"
+                        name="imageUpload"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="block w-full rounded-md border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
+                        <input name='idCardImageURL' id='idCardImageURL' onChange={handleInputChange} value={uploadedImageLink} hidden/>
+                        <small>
+                          Image must be less than 10 MB.
+                        </small>
+                        <br/>
+                        <small>
+                        {uploadStatus && (
+                            <p className={uploadStatus.includes('successfully') ? 'text-green-500' : 'text-red-00'}>
+                                {uploadStatus}
+                            </p>
+                        )}
+                        </small>
                 </div>
             </div>
             <div class="sm:col-span-12 flex gap-x-3">
