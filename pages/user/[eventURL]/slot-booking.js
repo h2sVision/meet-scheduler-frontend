@@ -422,7 +422,7 @@ const Event = (props) => {
                                 {/* Date Slots */}
                                 <div className='w-full lg:w-1/5 flex flex-col gap-5'>
                                     <div  className=' w-full bg-dark-gray rounded-xl'>
-                                    <div className='flex justify-center items-center py-3 border-b-2 border-white border-solid text-lg'><div id='selectedDate' className='text-lg hidden font-semibold mb-3'></div> Select a Time Slot {availableSlotsCount} </div>
+                                    <div className='flex justify-center items-center py-3 border-b-2 border-white border-solid text-lg'><div id='selectedDate' className='text-lg hidden font-semibold mb-3'></div> Select a Time Slot </div>
                                     <div id='slots' className='w-full '></div>
                                     
                                     </div>
