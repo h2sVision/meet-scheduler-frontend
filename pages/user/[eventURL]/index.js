@@ -17,6 +17,8 @@ const Dashboard = (props) => {
     const [loading, setLoading] = useState(false);
     const [uploadStatus, setUploadStatus] = useState('');
     const [uploadedImageLink, setUploadedImageLink] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+
     // axios
     const axiosPrivate = useAuthAxiosPrivate();
 
@@ -56,16 +58,28 @@ const Dashboard = (props) => {
       
       const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Check if the user has selected a file and there's a link available
+        if (!uploadedImageLink) {
+            setErrorMessage('Please upload your ID card before proceeding.');
+            return; // Exit the function without submitting the form
+        }
+
+        // Clear any previous error message if submission is successful
+        setErrorMessage('');
+
         const response = await axiosPrivate.post(`/user/${window.location.href.split('/')[4]}/updateUserEventInfo`, {userData, idCardImageURL: uploadedImageLink});
-    
+
         var serverResponse = response?.data?.message;
+
         // Handle form submission, if needed
         console.log("Form submitted:", userData);
-    
+
         if (serverResponse === "User Updated") {
             router.push(`/user/${window.location.href.split('/')[4]}/slot-booking`)
         }
-      };
+    };
+    
 
       const handleImageUpload = async (event) => {
         const file = event.target.files[0];
@@ -88,6 +102,7 @@ const Dashboard = (props) => {
                 const idCardImageURL = response.data.result;
                 setUploadedImageLink(idCardImageURL);
                 setUploadStatus('Image uploaded successfully');
+                setErrorMessage('');
             } else {
                 console.error('Failed to upload image');
                 setUploadStatus('Failed to upload image');
@@ -111,10 +126,13 @@ const Dashboard = (props) => {
         <h4 className='font-bold text-xl text-center text-stone-800	'>
             Kindly confirm your details to move forward
         </h4>
+        <p>
+          Note: If you wish to change any details then you can contact your moderator while interview in order to change the details.
+        </p>
       <form onSubmit={handleSubmit} className="">
         <div class="mt-5 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-6">
             <div class="sm:col-span-12">
-                <label for="fullName" class="block text-sm font-bold leading-6 text-gray-900">Full Name</label>
+                <label for="fullName" class="block text-sm font-bold leading-6 text-gray-900">Full Name (can not modify)</label>
                 <div class="mt-2">
                 <input type="text" 
                 name="fullName" 
@@ -127,7 +145,7 @@ const Dashboard = (props) => {
                 </div>
             </div>
             <div class="sm:col-span-12">
-                <label for="email" class="block text-sm font-bold leading-6 text-gray-900">Email ID</label>
+                <label for="email" class="block text-sm font-bold leading-6 text-gray-900">Email ID (can not modify)</label>
                 <div class="mt-2">
                 <input type="text" 
                 name="email" 
@@ -141,7 +159,7 @@ const Dashboard = (props) => {
                 <small className='text-red text-xs'>The Email ID can not be updated.</small>
             </div>
             <div className="sm:col-span-12">
-                <label for="gender" className="w-full block text-sm font-bold leading-6 text-gray-900">Gender</label>
+                <label for="gender" className="w-full block text-sm font-bold leading-6 text-gray-900">Gender (can not modify)</label>
                 <div className="mt-2">
                     <select id="gender" name="gender" disabled className="block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                         <option value="Male" selected={userData.gender === "Male" ? true : false}>Male</option>
@@ -153,7 +171,7 @@ const Dashboard = (props) => {
                 </div>
             </div>
             <div class="sm:col-span-12">
-                <label for="mobileNumber" class="block text-sm font-bold leading-6 text-gray-900">Mobile Number</label>
+                <label for="mobileNumber" class="block text-sm font-bold leading-6 text-gray-900">Mobile Number (can not modify)</label>
                 <div class="mt-2">
                 <input type="text" 
                 name="mobileNumber" 
@@ -166,7 +184,7 @@ const Dashboard = (props) => {
                 </div>
             </div>
             <div class="sm:col-span-12">
-                <label for="chapterName" class="block text-sm font-bold leading-6 text-gray-900">Chapter/College Name</label>
+                <label for="chapterName" class="block text-sm font-bold leading-6 text-gray-900">Chapter/College Name (can not modify)</label>
                 <div class="mt-2">
                 <input type="text" 
                 name="chapterName" 
@@ -179,7 +197,7 @@ const Dashboard = (props) => {
                 </div>
             </div>
             <div class="sm:col-span-12">
-                <label for="linkedInURL" class="block text-sm font-bold leading-6 text-gray-900">LinkedIn URL</label>
+                <label for="linkedInURL" class="block text-sm font-bold leading-6 text-gray-900">LinkedIn URL (can not modify)</label>
                 <div class="mt-2">
                 <input type="text" 
                 name="linkedInURL" 
@@ -192,7 +210,7 @@ const Dashboard = (props) => {
                 </div>
             </div>
             <div className="sm:col-span-12">
-                <label for="passingYear" class="block text-sm font-bold leading-6 text-gray-900">Graduation/Passing Year</label>
+                <label for="passingYear" class="block text-sm font-bold leading-6 text-gray-900">Graduation/Passing Year (can not modify)</label>
                 <div class="mt-2">
                 <input type="text" 
                 name="passingYear" 
@@ -204,9 +222,9 @@ const Dashboard = (props) => {
                 className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                 </div>
             </div>
-            <div class="sm:col-span-12">
-                <label for="imageUpload" class="block text-sm font-bold leading-6 text-gray-900">Upload Your ID Card</label>
-                <div class="mt-2">
+            <div className="sm:col-span-12">
+                <label htmlFor="imageUpload" className="block text-sm font-bold leading-6 text-gray-900">Upload Your ID Card (10 MB max, <span className='text-red-500'>REQUIRED</span>)</label>
+                <div className="mt-2">
                     <input 
                         type="file"
                         id="imageUpload"
@@ -214,18 +232,19 @@ const Dashboard = (props) => {
                         accept="image/*"
                         onChange={handleImageUpload}
                         className="block w-full rounded-md border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
-                        <input name='idCardImageURL' id='idCardImageURL' onChange={handleInputChange} value={uploadedImageLink} hidden/>
-                        <small>
-                          Image must be less than 10 MB.
-                        </small>
-                        <br/>
-                        <small>
+                    <input name='idCardImageURL' id='idCardImageURL' onChange={handleInputChange} value={uploadedImageLink} hidden/>
+                    <small>
+                        Image must be less than 10 MB.
+                    </small>
+                    <br/>
+                    <small>
                         {uploadStatus && (
-                            <p className={uploadStatus.includes('successfully') ? 'text-green-500' : 'text-red-00'}>
+                            <p className={uploadStatus.includes('successfully') ? 'text-green-500' : 'text-red-500'}>
                                 {uploadStatus}
                             </p>
                         )}
-                        </small>
+                    </small>
+                    {errorMessage && <p className="text-red-500">{errorMessage}</p>}
                 </div>
             </div>
             <div class="sm:col-span-12 flex gap-x-3">
