@@ -341,23 +341,31 @@ const Event = (props) => {
                            <div className=''><img src='/conference_Details.png'/></div>
                            <div className='md:text-lg lg:text-3xl font-bold'>🎉 Congratulations!</div>
                            <div className='text-sm md:text-base text-gray'>You have successfully scheduled your interview with Google Developers Student Clubs Lead Application process.
-                           <br/> <span className='text-sm'>An email containing deatils of interview as shown below has been sent to you</span></div>
-                           <div className='bg-dark-gray rounded-xl pb-2 px-2  mx-2 flex flex-col justify-center items-center gap-2 w-11/12  md:w-10/12'>
+                           <br/> <span className='text-sm'>An email containing details of interview as shown below has been sent to you</span></div>
+                           <div className='bg-dark-gray rounded-xl pb-6 px-2  mx-2 flex flex-col justify-center items-center gap-2 w-11/12  md:w-10/12'>
                                <div className='font-bold text-sm md:text-base lg:text-xl text-center border-b-2 border-white border-solid p-2 w-full'>Interview Details</div>    
                                <div className='text-xs md:text-base'><span className='font-bold'><CalendarMonthOutlinedIcon/> Date & Time: </span>&nbsp; <strong>{new Date(bookedConference.start).toDateString()}, {new Date(bookedConference.start).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true})} {new Date(bookedConference.start).toString().slice(34)}</strong></div>    
                                <div className='text-xs md:text-base'><span className='font-bold'><AccessTimeRoundedIcon/> Duration: </span>&nbsp; 30- 40 Minutes</div>    
                                <div className='text-xs md:text-base font-thin text-gray'>Copy your interview meeting link </div>
                                <div className='text-xs md:text-sm lg:text-base bg-light-gray text-gray rounded-lg pl-2 w-full md:w-82 lg:w-96 flex justify-between items-center '>{bookedConference.link} &nbsp; &nbsp; <button className='h2s-blue-button' onClick={(e)=>{e.target.innerHTML='Copied!'; navigator.clipboard.writeText(bookedConference.link)}}>Copy</button></div>
-                               <div className='text-xs md:text-base font-thin text-gray'>Incase of any queries, write to our alias gdsc-india@hack2skill.com</div>
+                               <div className='text-xs md:text-base font-thin text-gray'>
+                                <small className='block'>
+                                NOTE: Slots once booked are considered final and cannot be rescheduled later. If you wish to reschedule your interview, 
+                                you can do so only once by mailing us at <a href='mailto:gdsc-india@hack2skill.com' className='text-blue'>gdsc-india@hack2skill.com</a> at least 24 hours before the scheduled time. 
+                                Please state a valid reason for the rescheduling.
+                                <br/>We will accommodate requests only on a case by case basis. In this case, allow the team 24 hours to respond to your queries.
+                                </small>
+                               </div>
+                               {/* <div className='text-xs md:text-base font-thin text-gray'>Incase of any queries, write to our alias gdsc-india@hack2skill.com</div> */}
                            </div>
-                           <div className='bg-dark-gray rounded-xl pb-2 px-2  mx-2 flex flex-col justify-center items-center gap-2 w-11/12  md:w-10/12'>
+                           <div className='bg-dark-gray rounded-xl pb-5 px-2  mx-2 flex flex-col justify-center items-center gap-2 w-11/12  md:w-10/12'>
                                <div className='font-bold text-sm md:text-base lg:text-xl text-center border-b-2 border-white border-solid p-2 w-full'>Personal Details</div>    
                                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2 text-left'>
                                     <div className='text-xs md:text-base w-12/12'><span className='font-bold'>Name: </span>&nbsp; {userData.fullName}</div>
                                     <div className='text-xs md:text-base w-12/12'><span className='font-bold'>Email: </span>&nbsp; {userData.email}</div>
                                     <div className='text-xs md:text-base w-12/12'><span className='font-bold'>Gender: </span>&nbsp; {userData.gender}</div>
                                     <div className='text-xs md:text-base w-12/12'><span className='font-bold'>Mobile Number: </span>&nbsp; {userData.mobileNumber}</div>
-                                    <div className='text-xs md:text-base w-12/12'><span className='font-bold'>linkedIn URL: </span>&nbsp; {userData.linkedInURL}</div>
+                                    <div className='text-xs md:text-base w-12/12'><span className='font-bold'>LinkedIn URL: </span>&nbsp; {userData.linkedInURL}</div>
                                     <div className='text-xs md:text-base w-12/12'><span className='font-bold'>Passing Year: </span>&nbsp; {userData.passingYear}</div>
                                 </div>
                                <div className='text-xs md:text-base font-thin text-gray'>Incase of any queries, write to our alias gdsc-india@hack2skill.com</div>
@@ -397,7 +405,7 @@ const Event = (props) => {
                                     <div className='flex justify-start items-center gap-2'><span className='font-bold'>Event Name:</span> {eventName}</div>
                                     <div className='flex justify-start items-center gap-2'><span className='font-bold'><AccessTimeFilledRoundedIcon fontSize='sm'/> Duration:</span> {dur} Minutes</div>
                                     <div className='flex justify-start items-center gap-2'><span className='font-bold'><CalendarMonthIcon fontSize='sm'/> Schedule:</span> {new Date(minDate).toLocaleDateString()} - {new Date(maxDate).toLocaleDateString()}</div>
-                                    <div className='flex justify-start items-center gap-2'><span className='font-bold'><HelpIcon fontSize='sm'/> Platform Guide:</span> <Link target='_blank' href='https://docs.google.com/document/d/1ZNFHKa6ZHWRoIMHWE1wMwk2WVWAwd1bJBlhc8EuiCsk/edit?usp=sharing' className='text-google-blue'>Click Here</Link></div>
+                                    <div className='flex justify-start items-center gap-2'><span className='font-bold'><HelpIcon fontSize='sm'/> Platform Guide:</span> <Link target='_blank' href='https://app.tango.us/app/workflow/A-Step-by-Step-Login-and-Scheduling-Process-for-an-Interview-5bce7cb11cf140788bdc42496d716502' className='text-google-blue'>Click Here</Link></div>
                                 </div>
                             </div>
                             <div className=' w-full rounded bg-card-blue light-shadow flex flex-col justify-center'>

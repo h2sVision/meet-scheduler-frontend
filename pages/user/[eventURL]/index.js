@@ -126,9 +126,9 @@ const Dashboard = (props) => {
         <h4 className='font-bold text-xl text-center text-stone-800	'>
             Kindly confirm your details to move forward
         </h4>
-        <p>
-          Note: If you wish to change any details then you can contact your moderator while interview in order to change the details.
-        </p>
+        <small className='text-center text-stone-800 block pt-2'>
+          <b className='font-bold'>Note:</b> It is mandatory to upload your ID card before proceeding, the other details will not be allowed to be changed. <br/> If you wish to change any details please contact the moderator while you are giving your interview.
+        </small>
       <form onSubmit={handleSubmit} className="">
         <div class="mt-5 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-6">
             <div class="sm:col-span-12">
@@ -223,7 +223,10 @@ const Dashboard = (props) => {
                 </div>
             </div>
             <div className="sm:col-span-12">
-                <label htmlFor="imageUpload" className="block text-sm font-bold leading-6 text-gray-900">Upload Your ID Card (10 MB max, <span className='text-red-500'>REQUIRED</span>)</label>
+                <label htmlFor="imageUpload" className="block text-sm font-bold leading-6 text-gray-900">
+                  Upload your college ID card (<span className='text-red-500'>REQUIRED</span>)
+                  <br/>
+                  Note: If you do not have an ID card you can upload a document that mentions your college passing year (Example: Bonafide Certificate)</label>
                 <div className="mt-2">
                     <input 
                         type="file"
