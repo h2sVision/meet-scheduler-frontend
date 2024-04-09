@@ -216,7 +216,7 @@ export default function Login() {
                 <div className="relative lg:order-1 md:order-2 sm:order-2 xs:order-2 col-md-5 my-md-auto small-card text-center grow-0 shrink-1  md:shrink-0 basis-auto xl:w-6/12 lg:w-6/12 md:w-full mb-12 md:mb-0 LoginImgDiv">
                   {/* left */} 
                   { !isOtpSent ? (
-                  <img  height={750} className='text-left w-full rightSideImage' src="/auth/RightSideImgae.png" />
+                  <img  height={750} className='text-left w-full rightSideImage' src="/auth/gdscCoverImage.png" />
                   ):(
                   <img  height={750} className='text-left w-full rightSideImage' src="/auth/otpImage.png" />)}
                 </div>

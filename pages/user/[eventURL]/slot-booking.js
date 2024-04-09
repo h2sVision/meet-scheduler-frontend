@@ -380,15 +380,15 @@ const Event = (props) => {
                     // initialStep={initialStep}
                     onExit={onExit}
                     />*/}
-                    {/* <div className='flex flex-col w-full p-2 mb-3'>
+                    <div className='flex flex-col w-full p-2 mb-3'>
                         <div style={{ backgroundColor: '#fef3c7', padding: '10px 10px 6px 10px', borderRadius: '8px' }}>
                             <marquee behavior="scroll" direction="left">
                                 <span style={{ color: '#f59e0b' }}>
-                                    Last date for interview is 28th May 2023. No interview will be scheduled after it.
+                                The slots are opened in batches. Please wait for at least 24 hours for the new slots to open up.
                                 </span>
                             </marquee>
                         </div>
-                    </div> */}
+                    </div>
                     <div className='flex-col lg:flex-row w-full mx-5 flex gap-5 justify-center items-start p-2 '>
                         
                         {/* Conference Details */}
