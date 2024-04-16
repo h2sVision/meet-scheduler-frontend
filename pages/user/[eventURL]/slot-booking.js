@@ -74,7 +74,7 @@ const Event = (props) => {
         for(let dateId = new Date(minID); dateId <=new Date(maxID); dateId = new Date(dateId.setDate(dateId.getDate() +1))){
             const parent = document.getElementById(dateId.toDateString());
             const childrenArray = Array.from(parent.children);
-            console.log("Data => ", childrenArray); 
+            console.log("dateId Data => ", childrenArray); 
         childrenArray.sort((a, b) => a.id.localeCompare(b.id)); 
             await appendFunction(childrenArray, parent)
         }
@@ -210,6 +210,7 @@ const Event = (props) => {
                                 ss.children[0].dataset.moderators = JSON.stringify(mods);
                             }else{
                                 let newSlot = document.createElement('div');
+                                var totalSlotsCount = 0;
                                 newSlot.id = initialslots[slot].toISOString();
                                 newSlot.classList.add('flex')
                                 newSlot.classList.add('justify-center')
@@ -228,17 +229,16 @@ const Event = (props) => {
                                     }
                                     newSlot.children[0].classList.add('active');
                                 });
-            
+                            
                                 let dateDiv = document.getElementById(initialslots[slot].toDateString());
-            
+                            
                                 if(dateDiv){
                                     dateDiv.children[0].innerHTML='';
                                     dateDiv?.append(newSlot);
                                     const childrenArray = Array.from(dateDiv.children);
-                                    console.log("Data => ", childrenArray); 
+                                    console.log("dateDiv Data => ", childrenArray); 
                                     childrenArray.sort((a, b) => a.id.localeCompare(b.id)); 
-                                    appendFunction(childrenArray, dateDiv)
-            
+                                    appendFunction(childrenArray, dateDiv);
                                 }else{
                                     let newDateDiv = document.createElement('div');
                                     newDateDiv.id = `${initialslots[slot].toDateString()}`;
@@ -246,8 +246,7 @@ const Event = (props) => {
                                     newDateDiv?.append(newSlot);
                                     document.getElementById('slots')?.append(newDateDiv);
                                 }
-                            
-                            }
+                            }                            
                             
                         }
                         }
