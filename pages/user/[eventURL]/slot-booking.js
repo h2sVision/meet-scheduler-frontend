@@ -29,6 +29,7 @@ const Event = (props) => {
     const [dur, setDur] = useState('');
     const [eventName, setEventName] = useState('');
     const [loading, setLoading] = useState(false);
+    const [triggerCheck, setTriggerCheck] = useState(false);
     const [monthName, setMonthName]= useState(' ');
     const router = useRouter();
 
@@ -79,6 +80,53 @@ const Event = (props) => {
             await appendFunction(childrenArray, parent)
         }
     }
+
+    const countSlots = () => {
+    // Select all week containers
+    const weekContainers = document.querySelectorAll('.react-datepicker__week');
+    
+    // Initialize an object to store the slot counts for each date and time
+    const slotCounts = {};
+
+    // Iterate over each week container
+    weekContainers.forEach(weekContainer => {
+        // Select the date from the ID attribute of the container
+        const date = weekContainer.id;
+
+        // Select all day elements within this week container that do not have the class "react-datepicker__day--disabled"
+        const dayElements = weekContainer.querySelectorAll('.react-datepicker__day:not(.react-datepicker__day--disabled)');
+
+        // Iterate over each filtered day element
+        dayElements.forEach(dayElement => {
+            // Get the date label
+            const dateLabel = dayElement.textContent.trim();
+
+            // Get the slot elements for this day
+            const slotElements = document.querySelectorAll(`#${date} .slotTime`);
+
+            // Initialize the slot count for this date
+            let slotCount = 0;
+
+            // Iterate over each slot element
+            slotElements.forEach(slotElement => {
+                // Get the email IDs from the data-moderators attribute
+                const moderators = JSON.parse(slotElement.getAttribute('data-moderators'));
+
+                // Increment the slot count based on the number of email IDs
+                slotCount += moderators.length;
+            });
+
+            // Store the slot count for this date
+            slotCounts[dateLabel] = slotCount;
+        });
+    });
+
+    // Log the slot counts for each date
+    console.log("Slot Counts:", slotCounts);
+};
+
+      
+      
     const printData = async()=>{
         let availableSlotsCount = 0;
         try{
@@ -137,7 +185,6 @@ const Event = (props) => {
                                 }
                             }
                             availableSlotsCount++;
-                            console.log("availableSlotsCount => ", availableSlotsCount);
                         }
                     }
                     extraslots=[];
@@ -236,7 +283,7 @@ const Event = (props) => {
                                     dateDiv.children[0].innerHTML='';
                                     dateDiv?.append(newSlot);
                                     const childrenArray = Array.from(dateDiv.children);
-                                    console.log("dateDiv Data => ", childrenArray); 
+                                    // console.log("dateDiv Data => ", childrenArray); 
                                     childrenArray.sort((a, b) => a.id.localeCompare(b.id)); 
                                     appendFunction(childrenArray, dateDiv);
                                 }else{
@@ -280,8 +327,9 @@ const Event = (props) => {
         try{
 
             const obj = await printData();
+            // if (obj){
+            // }
             // await sortSlots(obj.min, obj.max);
-
         }catch(e){
             console.log(e);
             if(e?.response?.status === 403){
@@ -289,8 +337,8 @@ const Event = (props) => {
             }
 
         }
-        setLoading(false)
-
+        setLoading(false);
+        setTriggerCheck(true);
     }
     const handleClick = async () => {
         setLoading(true);
@@ -325,6 +373,11 @@ const Event = (props) => {
         fetchData();
       }
     },[mounted])
+
+    useEffect(()=>{
+        console.log("calling now");
+        // setTimeout(countSlots(), 2000);
+    },[triggerCheck])
     useEffect(()=>{setMounted(true)},[])
   return (
     <>
@@ -379,7 +432,7 @@ const Event = (props) => {
                     // initialStep={initialStep}
                     onExit={onExit}
                     />*/}
-                    <div className='flex flex-col w-full p-2 mb-3'>
+                    {/* <div className='flex flex-col w-full p-2 mb-3'>
                         <div style={{ backgroundColor: '#fef3c7', padding: '10px 10px 6px 10px', borderRadius: '8px' }}>
                             <marquee behavior="scroll" direction="left">
                                 <span style={{ color: '#f59e0b' }}>
@@ -387,7 +440,7 @@ const Event = (props) => {
                                 </span>
                             </marquee>
                         </div>
-                    </div>
+                    </div> */}
                     <div className='flex-col lg:flex-row w-full mx-5 flex gap-5 justify-center items-start p-2 '>
                         
                         {/* Conference Details */}
