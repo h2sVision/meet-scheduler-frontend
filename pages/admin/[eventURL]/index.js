@@ -625,6 +625,9 @@ const Event = (props) => {
                                         types={fileTypes} 
                                         className='w-full p-5 flex justify-center items-center'
                                     />
+                                    <p className='text-sm'>Download Sample CSV from here: 
+                                        <a className='text-blue' target='_blank' rel="noreferrer"  href='https://docs.google.com/spreadsheets/d/1Q6vjK1s9XclJC1kAtuEfcOA3q6oOFLwPOhwOiYw2taM/edit?usp=sharing'>DOWNLOAD SAMPLE CSV</a>
+                                    </p>
                                     <button onClick={addParticipants} className='h2s-button text-sm md:text-base'>Add Participants</button>
                                 </div>
                             </div>
