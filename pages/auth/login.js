@@ -216,9 +216,9 @@ export default function Login() {
                 <div className="relative lg:order-1 md:order-2 sm:order-2 xs:order-2 col-md-5 my-md-auto small-card text-center grow-0 shrink-1  md:shrink-0 basis-auto xl:w-6/12 lg:w-6/12 md:w-full mb-12 md:mb-0 LoginImgDiv">
                   {/* left */} 
                   { !isOtpSent ? (
-                  <img className='text-left w-full rightSideImage' src="/auth/newGdscCoverImage.png" />
+                  <img  height={750} className='text-left rightSideImage' src="/auth/newGdscCoverImage.png" />
                   ):(
-                  <img className='text-left w-full rightSideImage' src="/auth/newOtpImage.png" />)}
+                  <img  height={750} className='text-left rightSideImage' src="/auth/newOtpImage.png" />)}
                 </div>
                 {/* Right */}
                 <div className="lg:order-2 order-2 md:order-1 sm:order-1 xs:order-1   offset-md-1 col-md-6 px-md-auto p-0 xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-full mb-12 md:mb-0 LoginContentDiv">
@@ -281,7 +281,7 @@ export default function Login() {
                     )}
                     </div>
                     <div className="w-11/12 lg:w-10/12 mx-auto">
-                        <h2 className="text-3xl font-semibold pt-5">Login to schedule your interview slot</h2>
+                        <h2 className="text-3xl font-semibold pt-5">Login to Schedule Interview Slot</h2>
                         {/* <div className="flex w-full pt-8 items-center">
                         <Link href={`${process.env.NEXT_PUBLIC_BACKEND_API}/auth/google`} className="w-full">
                           <button className="bg-white shadow text-gray rounded-md font-normal  focus:outline-none focus:shadow-outline  flex gap-2 justify-center items-center w-full py-2 lg:py-3"> 
