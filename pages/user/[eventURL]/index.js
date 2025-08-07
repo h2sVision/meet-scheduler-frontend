@@ -264,7 +264,7 @@ const Dashboard = (props) => {
                 </div>
                 <div class="text-sm leading-6">
                     <label for="consent" class="font-medium text-gray-900">
-                        You are agree for Google Developer Student Clubs team to contact you to get better clarity of how your institution operates in case of any confusion
+                        You agree that the GDG on Campus India team might contact you to get a better understanding of your campus.
                     </label>
                 </div>
             </div>

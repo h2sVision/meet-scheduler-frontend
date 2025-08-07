@@ -971,7 +971,7 @@ const printData = async () => {
                   </div>
                   <div className=" w-full rounded bg-card-blue light-shadow flex flex-col justify-center">
                     <div className="border-b-2 border-white border-solid p-3 font-semibold">
-                      Selected Slot Details
+                      Selected slot details
                     </div>
                     <div className="flex flex-col p-3 gap-2">
                       <div className="text-sm">Date & Time:</div>
@@ -1014,7 +1014,7 @@ const printData = async () => {
                             id="selectedDate"
                             className="text-lg hidden font-semibold mb-3"
                           ></div>{" "}
-                          Select a Time Slot{" "}
+                          Select a time slot{" "}
                         </div>
                         <div id="slots" className="w-full "></div>
                       </div>

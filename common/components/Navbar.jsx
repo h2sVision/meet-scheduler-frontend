@@ -9,7 +9,7 @@ const Navbar = ({leftSidebarOpen, setLeftSidebarOpen, callLogout, backToDashboar
     <div className='flex flex-col w-full shadow  sticky top-0 z-30 bg-white text-black'>
       <div className=' w-full py-2 md:py-3 px-5 flex justify-between items-center'>
           <a className='branding w-56 md:w-72' href='/'>
-              <img src="/auth/nav.png" className='w-full'/>
+              <img src="/auth/newNav.png" className='w-full'/>
           </a>
           <div className='hidden md:flex fontMontserrat text-sm gap-6'>
               {/* <div className='cursor-pointer' onClick={backToDashboard}>Dashboard</div> */}
