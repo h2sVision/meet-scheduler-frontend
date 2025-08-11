@@ -962,7 +962,7 @@ const printData = async () => {
                         </span>{" "}
                         <Link
                           target="_blank"
-                          href="https://app.tango.us/app/workflow/A-Step-by-Step-Login-and-Scheduling-Process-for-an-Interview-5bce7cb11cf140788bdc42496d716502"
+                          href="https://bit.ly/GDGoC2025PlatformGuide"
                           className="text-google-blue"
                         >
                           Click Here
