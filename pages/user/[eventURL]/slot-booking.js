@@ -793,8 +793,7 @@ const printData = async () => {
                   🎉 Congratulations!
                 </div>
                 <div className="text-sm md:text-base text-gray">
-                  You have successfully scheduled your interview with Google
-                  Developers Student Clubs Lead Application process.
+                  You have successfully scheduled your interview with GDG on Campus Organiser Application process.
                   <br />{" "}
                   <span className="text-sm">
                     An email containing details of interview as shown below has
@@ -847,20 +846,22 @@ const printData = async () => {
                       rescheduled later. If you wish to reschedule your
                       interview, you can do so only once by mailing us at{" "}
                       <a
-                        href="mailto:gdsc-india@hack2skill.com"
+                        href="mailto:gdgoncampus-india@hack2skill.com"
                         className="text-blue"
                       >
-                        gdsc-india@hack2skill.com
+                        gdgoncampus-india@hack2skill.com
                       </a>{" "}
                       at least 24 hours before the scheduled time. Please state
                       a valid reason for the rescheduling.
+                      <br />
+                      Please do not forward/share this link. This link is specifically meant for your  interview.
                       <br />
                       We will accommodate requests only on a case by case basis.
                       In this case, allow the team 24 hours to respond to your
                       queries.
                     </small>
                   </div>
-                  {/* <div className='text-xs md:text-base font-thin text-gray'>Incase of any queries, write to our alias gdsc-india@hack2skill.com</div> */}
+                  {/* <div className='text-xs md:text-base font-thin text-gray'>Incase of any queries, write to our alias gdgoncampus-india@hack2skill.com</div> */}
                 </div>
                 <div className="bg-dark-gray rounded-xl pb-5 px-2  mx-2 flex flex-col justify-center items-center gap-2 w-11/12  md:w-10/12">
                   <div className="font-bold text-sm md:text-base lg:text-xl text-center border-b-2 border-white border-solid p-2 w-full">
@@ -894,7 +895,7 @@ const printData = async () => {
                   </div>
                   <div className="text-xs md:text-base font-thin text-gray">
                     Incase of any queries, write to our alias
-                    gdsc-india@hack2skill.com
+                    gdgoncampus-india@hack2skill.com
                   </div>
                 </div>
               </div>
